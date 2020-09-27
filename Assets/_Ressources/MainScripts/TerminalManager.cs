@@ -46,6 +46,7 @@ public class TerminalManager : MonoBehaviour
 
     public void Delete()
     {
+        this.transform.parent.GetChild(this.transform.GetSiblingIndex() -1 ).gameObject.tag = "Fokussed";
         Destroy(this.gameObject);
     }
 }
