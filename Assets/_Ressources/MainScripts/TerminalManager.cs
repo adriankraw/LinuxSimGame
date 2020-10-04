@@ -13,6 +13,10 @@ public class TerminalManager : MonoBehaviour
     {
         // erstelle die erste Zeile
         Instantiate(zeile, this.transform);
+        if (this.transform.parent.GetComponent<FlexibleGridLayout>())
+        {
+            knoten = this.transform.parent.gameObject;
+        }
     }
 
     // Update is called once per frame
@@ -31,14 +35,22 @@ public class TerminalManager : MonoBehaviour
                 Delete();
             }
             //Restliche Eingabe muss abgefragt werden, damit Befehle funktionieren
+            if(Input.GetKey(KeyCode.LeftAlt) && Input.GetKey(KeyCode.H))
+            {
+                knoten.GetComponent<FlexibleGridLayout>().SetLayoutHorizontal();
+            }
+            if(Input.GetKey(KeyCode.LeftAlt) && Input.GetKey(KeyCode.V))
+            {
+                knoten.GetComponent<FlexibleGridLayout>().SetLayoutVertical();
+            }
         }
     }
 
     public void Erzeugen()
     {
-        if(this.transform.parent.tag == "Knoten")
+        if(knoten == this.transform.parent.gameObject)
         {
-            GameObject newTerminal =  Instantiate(terminal, this.transform.parent);
+            GameObject newTerminal =  Instantiate(terminal, knoten.transform);
             this.transform.tag = "Untagged";
             newTerminal.tag = "Fokussed";
         }

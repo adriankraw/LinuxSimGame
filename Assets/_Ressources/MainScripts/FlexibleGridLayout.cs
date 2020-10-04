@@ -5,7 +5,6 @@ using UnityEngine.UI;
 
 public enum FitType
 {
-    Uniform,
     Width,
     Heigth
 }
@@ -20,37 +19,18 @@ public class FlexibleGridLayout : LayoutGroup
     public override void CalculateLayoutInputHorizontal()
     {
         base.CalculateLayoutInputHorizontal();
-        
-    float srqrt = 0;
-
-        if(fitType == FitType.Uniform)
-        {
-            srqrt = Mathf.Sqrt(transform.childCount);
-            rows = Mathf.CeilToInt(srqrt);
-            columns = Mathf.CeilToInt(srqrt);
-        }
-        if(fitType == FitType.Heigth)
-        {
-            columns = transform.childCount;
-            rows = 1;
-        }
-        if(fitType == FitType.Width)
-        {
-            columns = transform.childCount;
-            rows = 1;
-        }
-
 
         float parentWidth = rectTransform.rect.width;
         float parentHeight = rectTransform.rect.height;
 
-        float cellWidth = parentWidth / (float)columns - ((spacing.x/(float)columns)* 2) - (padding.left / (float)columns) - (padding.right / (float)columns);
-        float cellHeight = parentHeight / (float)rows - ((spacing.y/(float)rows)* 2) - (padding.top / (float)rows) - (padding.bottom / (float)rows);
+        float cellWidth = 0f;
+        float cellHeight = 0f;
 
-        if(rectChildren.Count == rows)
-        {
-            cellHeight = parentHeight - (spacing.y * 2) - padding.top - padding.bottom;
-        }
+        columns = transform.childCount;
+        rows = 1;
+
+        cellWidth = parentWidth / (float)columns - ((spacing.x / (float)columns) * 2) - (padding.left / (float)columns) - (padding.right / (float)columns);
+        cellHeight = parentHeight / (float)rows - ((spacing.y / (float)rows) * 2) - (padding.top / (float)rows) - (padding.bottom / (float)rows);
 
 
         cellSize.y = cellHeight;
@@ -59,21 +39,16 @@ public class FlexibleGridLayout : LayoutGroup
         int columnCount = 0;
         int rowCount = 0;
 
-        for (int i  = 0; i < rectChildren.Count; i++)
+        for (int i = 0; i < rectChildren.Count; i++)
         {
-            rowCount = i / rows;
-            columnCount = i % columns;
+            rowCount = 0;
+            columnCount = i;
+
 
             var item = rectChildren[i];
 
             var xPos = (cellSize.x * columnCount) + (spacing.x * columnCount) + padding.left;
             var yPos = (cellSize.y * rowCount) + (spacing.y * rowCount) + padding.top;
-
-            // if(i == rectChildren.Count -1)
-            // {
-            //     // fill width
-            //     cellSize.x += ((columns - rectChildren.Count % columns ) * (parentWidth / (float)columns)) - padding.right;
-            // }
 
             SetChildAlongAxis(item, 0, xPos, cellSize.x);
             SetChildAlongAxis(item, 1, yPos, cellSize.y);
@@ -81,14 +56,45 @@ public class FlexibleGridLayout : LayoutGroup
     }
     public override void CalculateLayoutInputVertical()
     {
-        
+        float parentWidth = rectTransform.rect.width;
+        float parentHeight = rectTransform.rect.height;
+
+        float cellWidth = 0f;
+        float cellHeight = 0f;
+
+        columns = 1;
+        rows = transform.childCount;
+
+        cellWidth = parentWidth / (float)columns - ((spacing.x / (float)columns) * 2) - (padding.left / (float)columns) - (padding.right / (float)columns);
+        cellHeight = parentHeight / (float)rows - ((spacing.y / (float)rows) * 2) - (padding.top / (float)rows) - (padding.bottom / (float)rows);
+
+
+        cellSize.y = cellHeight;
+        cellSize.x = cellWidth;
+
+        int columnCount = 0;
+        int rowCount = 0;
+
+        for (int i = 0; i < rectChildren.Count; i++)
+        {
+            rowCount = i;
+            columnCount = 0;
+
+            var item = rectChildren[i];
+
+            var xPos = (cellSize.x * columnCount) + (spacing.x * columnCount) + padding.left;
+            var yPos = (cellSize.y * rowCount) + (spacing.y * rowCount) + padding.top;
+
+            SetChildAlongAxis(item, 0, xPos, cellSize.x);
+            SetChildAlongAxis(item, 1, yPos, cellSize.y);
+        }
     }
     public override void SetLayoutHorizontal()
     {
-        
+        fitType = FitType.Width;
     }
     public override void SetLayoutVertical()
     {
-        
+        fitType = FitType.Heigth;
     }
 }
