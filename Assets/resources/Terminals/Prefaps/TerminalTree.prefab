@@ -162,6 +162,16 @@ PrefabInstance:
       propertyPath: m_MinHeight
       value: -1
       objectReference: {fileID: 0}
+    - target: {fileID: 6995545105930523623, guid: f741456a612420f4283379cda382c08f,
+        type: 3}
+      propertyPath: terminalBody
+      value: 
+      objectReference: {fileID: 5533066664481929301}
+    - target: {fileID: 6995545105930523623, guid: f741456a612420f4283379cda382c08f,
+        type: 3}
+      propertyPath: zeile
+      value: 
+      objectReference: {fileID: 7439576151880711390}
     - target: {fileID: 7269073544351596808, guid: f741456a612420f4283379cda382c08f,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -273,6 +283,12 @@ PrefabInstance:
 --- !u!224 &5533066664551905193 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 7269073544351596808, guid: f741456a612420f4283379cda382c08f,
+    type: 3}
+  m_PrefabInstance: {fileID: 2893995079015315105}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &5533066664481929301 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7269073544555761396, guid: f741456a612420f4283379cda382c08f,
     type: 3}
   m_PrefabInstance: {fileID: 2893995079015315105}
   m_PrefabAsset: {fileID: 0}
@@ -436,3 +452,9 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 385f9885176ce944f9db2784bb900dfe, type: 3}
+--- !u!1 &7439576151880711390 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3168222720145343446, guid: 385f9885176ce944f9db2784bb900dfe,
+    type: 3}
+  m_PrefabInstance: {fileID: 5533066664494825224}
+  m_PrefabAsset: {fileID: 0}

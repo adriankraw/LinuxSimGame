@@ -92,9 +92,11 @@ public class FlexibleGridLayout : LayoutGroup
     public override void SetLayoutHorizontal()
     {
         fitType = FitType.Width;
+        CalculateLayoutInputHorizontal();
     }
     public override void SetLayoutVertical()
     {
         fitType = FitType.Heigth;
+        CalculateLayoutInputVertical();
     }
 }

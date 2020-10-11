@@ -50,8 +50,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   knoten: {fileID: 7269073544351596811}
-  terminal: {fileID: 7269073544351596811}
+  terminal: {fileID: 7228082193228264722, guid: 7eac17f2dcd64ab4395a9b459514949e,
+    type: 3}
+  terminalBody: {fileID: 0}
   zeile: {fileID: 7269073544555761396}
+  string2: Terminals/Prefaps/TerminalEmpty_Prefap
 --- !u!1 &7269073544555761396
 GameObject:
   m_ObjectHideFlags: 0
