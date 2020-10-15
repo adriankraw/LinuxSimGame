@@ -13,8 +13,8 @@ public class TerminalManager : MonoBehaviour
 
     [SerializeField] private string string2 = "Terminals/Prefaps/TerminalEmpty_Prefap";
 
-    //Input
-    KeyCode SuperKey = KeyCode.LeftAlt;
+    //Input Vielleicht mach ich das noch änderbar aber ich weiß nicht so recht
+    [SerializeField] KeyCode SuperKey = KeyCode.LeftAlt;
 
     //Befehle
     private string _rawEingabe;
@@ -24,7 +24,7 @@ public class TerminalManager : MonoBehaviour
     void Start()
     {
         // erstelle die erste Zeile
-        newLine();
+        newLine("",true);
         if (this.transform.parent.GetComponent<FlexibleGridLayout>())
         {
             knoten = this.transform.parent.gameObject;
@@ -34,8 +34,7 @@ public class TerminalManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (this.tag != "Fokussed") return;
-        else
+        if (this.tag == "Fokussed")
         {
             if (!Input.GetKey(SuperKey))
             {
@@ -47,7 +46,7 @@ public class TerminalManager : MonoBehaviour
             }
             if (Input.GetKey(SuperKey) && Input.GetKeyDown(KeyCode.Return))
             {
-                Debug.Log("Erzeugen");
+                Debug.Log("Erzeugen durch Terminal");
                 Erzeugen();
             }
             if (Input.GetKey(SuperKey) && Input.GetKey(KeyCode.LeftAlt) && Input.GetKeyDown(KeyCode.Q))
@@ -69,22 +68,41 @@ public class TerminalManager : MonoBehaviour
 
     private void readInput()
     {
-        _rawEingabe = terminalBody.transform.GetChild(terminalBody.transform.childCount - 1).GetComponentInChildren<Text>().text;
-        _rawEingabe = _rawEingabe.Substring(2);
-        _eingabe = _rawEingabe.Split(' ');
-
-        foreach (string eingabe in _eingabe)
+        try
         {
-            Debug.Log(eingabe);
-        }
+            _rawEingabe = terminalBody.transform.GetChild(terminalBody.transform.childCount - 1).GetComponentInChildren<InputField>().text;
 
-        newLine();
+            if (_rawEingabe != "")
+            {
+
+                _eingabe = _rawEingabe.Split(' ');
+
+                foreach (string asd in CommandsManager.BefehleErkennen(_eingabe.GetValue(0).ToString(), ""))
+                {
+                    newLine(asd, false);
+                }
+            }
+        }
+        catch (Exception e)
+        {
+            Debug.Log("Error: " + e);
+        }
+        newLine("", true);
     }
 
-    private void newLine()
+    private void newLine(string _eingabe, bool eingabe)
     {
         GameObject tmpObj = Instantiate(zeile, terminalBody.transform);
-        tmpObj.GetComponentInChildren<Text>().text += " " + terminalBody.transform.childCount;
+        tmpObj.GetComponentInChildren<InputField>().text = _eingabe;
+        tmpObj.GetComponentInChildren<InputField>().ActivateInputField();
+        
+        if(eingabe)
+        {
+            tmpObj.GetComponentInChildren<Text>().text = ">";
+        }else{
+            tmpObj.GetComponentInChildren<Text>().text = " ";
+        }
+        
     }
 
     public void Erzeugen()
@@ -99,7 +117,10 @@ public class TerminalManager : MonoBehaviour
 
     public void Delete()
     {
-        this.transform.parent.GetChild(this.transform.GetSiblingIndex() - 1).gameObject.tag = "Fokussed";
+        if(transform.parent.childCount > 1 )
+        {
+            this.transform.parent.GetChild(this.transform.GetSiblingIndex() - 1).gameObject.tag = "Fokussed";
+        }
         Destroy(this.gameObject);
     }
 }
