@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Fokussed
   - Knoten
+  - RootDictory
   layers:
   - Default
   - TransparentFX

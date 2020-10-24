@@ -13,7 +13,6 @@ public class TerminalKnoten : MonoBehaviour
         if ( this.transform.childCount == 0 && (Input.GetKey(SuperKey) && Input.GetKeyDown(KeyCode.Return)))
         {
             Erzeugen();
-            Debug.Log("ich bin der Knoten der alles umfasst Muhahaha");
         }
     }
 

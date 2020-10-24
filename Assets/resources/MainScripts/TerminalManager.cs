@@ -24,7 +24,8 @@ public class TerminalManager : MonoBehaviour
     void Start()
     {
         // erstelle die erste Zeile
-        newLine("",true);
+        newLine(CommandsManager.GetDirectoryPath(), false);
+        newLine("", true);
         if (this.transform.parent.GetComponent<FlexibleGridLayout>())
         {
             knoten = this.transform.parent.gameObject;
@@ -72,14 +73,20 @@ public class TerminalManager : MonoBehaviour
         {
             _rawEingabe = terminalBody.transform.GetChild(terminalBody.transform.childCount - 1).GetComponentInChildren<InputField>().text;
 
-            if (_rawEingabe != "")
+            if (_rawEingabe != "")//hat der User überhaubt was geschrieben ?
             {
+                
 
                 _eingabe = _rawEingabe.Split(' ');
-
-                foreach (string asd in CommandsManager.BefehleErkennen(_eingabe.GetValue(0).ToString(), ""))
+                string option = "";                
+                if( _eingabe.Length > 1 ) 
                 {
-                    newLine(asd, false);
+                    option = _eingabe.GetValue(1).ToString();
+                }
+
+                foreach (string asd in CommandsManager.BefehleErkennen(_eingabe.GetValue(0).ToString(), option ))
+                {
+                    newLine(asd, false); // false because we dont need that " < " - Icon. 
                 }
             }
         }
@@ -87,7 +94,8 @@ public class TerminalManager : MonoBehaviour
         {
             Debug.Log("Error: " + e);
         }
-        newLine("", true);
+        newLine(CommandsManager.GetDirectoryPath(), false);
+        newLine("", true); // true cause we need that " < " icon. User can type in these lines
     }
 
     private void newLine(string _eingabe, bool eingabe)
