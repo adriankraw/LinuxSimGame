@@ -47,12 +47,10 @@ public class TerminalManager : MonoBehaviour
             }
             if (Input.GetKey(SuperKey) && Input.GetKeyDown(KeyCode.Return))
             {
-                Debug.Log("Erzeugen durch Terminal");
                 Erzeugen();
             }
             if (Input.GetKey(SuperKey) && Input.GetKey(KeyCode.LeftAlt) && Input.GetKeyDown(KeyCode.Q))
             {
-                Debug.Log("Delete");
                 Delete();
             }
             //Restliche Eingabe muss abgefragt werden, damit Befehle funktionieren
@@ -75,8 +73,6 @@ public class TerminalManager : MonoBehaviour
 
             if (_rawEingabe != "")//hat der User überhaubt was geschrieben ?
             {
-                
-
                 _eingabe = _rawEingabe.Split(' ');
                 string option = "";                
                 if( _eingabe.Length > 1 ) 
@@ -109,6 +105,8 @@ public class TerminalManager : MonoBehaviour
             tmpObj.GetComponentInChildren<Text>().text = ">";
         }else{
             tmpObj.GetComponentInChildren<Text>().text = " ";
+            tmpObj.GetComponentInChildren<Text>().GetComponent<LayoutElement>().preferredWidth = 10;
+            tmpObj.GetComponentInChildren<Text>().GetComponent<LayoutElement>().preferredHeight = 30;
         }
         
     }
