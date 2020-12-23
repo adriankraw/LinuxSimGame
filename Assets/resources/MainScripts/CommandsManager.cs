@@ -73,7 +73,17 @@ public class CommandsManager : MonoBehaviour
                     _eingabe = ReturnReadFileSystem(true);
                 }
                 break;
-
+            case "player":
+                if (_option == "--name" || _option == "-n")
+                {
+                    _eingabe[0] = "player Name got changed to: "+@"\n"+@"\t"+"Not working";
+                }else{
+                    goto default;
+                }
+                break;
+            case "whoami":
+                _eingabe[0] = PlayerChar._name;
+                break;
             default:
                 error[0] = _befehl;
                 _eingabe = error;
@@ -91,25 +101,29 @@ public class CommandsManager : MonoBehaviour
 
     public static string[] ReturnReadFileSystem(bool quality)
     {
-        string[] _eingabe = new string[_currentDirectory.transform.childCount];
+        string[] _eingabe;
 
         if (quality)
         {
+            _eingabe = new string[1];
             for (int i = 0; i < _currentDirectory.transform.childCount; i++)
             {
-                _eingabe[i] = _currentDirectory.transform.GetChild(i).GetComponent<File_Obj>().permission +
-                "   " + _currentDirectory.transform.GetChild(i).GetComponent<File_Obj>().links +
-                "   " + _currentDirectory.transform.GetChild(i).GetComponent<File_Obj>().owner +
-                "   " + _currentDirectory.transform.GetChild(i).GetComponent<File_Obj>().groupname +
-                "   " + _currentDirectory.transform.GetChild(i).GetComponent<File_Obj>().size +
-                "   " + _currentDirectory.transform.GetChild(i).GetComponent<File_Obj>().date +
-                "   " + _currentDirectory.transform.GetChild(i).GetComponent<File_Obj>().time +
-                "   " + _currentDirectory.transform.GetChild(i).GetComponent<File_Obj>().filename;
+                _eingabe[0] += string.Concat(
+                     _currentDirectory.transform.GetChild(i).GetComponent<File_Obj>().permission,
+                @"\t", _currentDirectory.transform.GetChild(i).GetComponent<File_Obj>().links,
+                @"\t", _currentDirectory.transform.GetChild(i).GetComponent<File_Obj>().owner,
+                @"\t", _currentDirectory.transform.GetChild(i).GetComponent<File_Obj>().groupname,
+                @"\t", _currentDirectory.transform.GetChild(i).GetComponent<File_Obj>().size,
+                @"\t", _currentDirectory.transform.GetChild(i).GetComponent<File_Obj>().date,
+                @"\t", _currentDirectory.transform.GetChild(i).GetComponent<File_Obj>().time,
+                @"\t", _currentDirectory.transform.GetChild(i).GetComponent<File_Obj>().filename, @"\n"
+                );
             }
 
         }
         else
         {
+            _eingabe = new string[_currentDirectory.transform.childCount];
             for (int i = 0; i < _currentDirectory.transform.childCount; i++)
             {
                 _eingabe[i] = _currentDirectory.transform.GetChild(i).GetComponent<File_Obj>().filename;

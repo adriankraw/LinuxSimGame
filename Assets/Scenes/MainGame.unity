@@ -561,6 +561,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 431647210}
+  - component: {fileID: 431647212}
+  - component: {fileID: 431647211}
   m_Layer: 0
   m_Name: PlayerChar
   m_TagString: Untagged
@@ -582,6 +584,39 @@ Transform:
   m_Father: {fileID: 965815910}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &431647211
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 431647209}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c09ba553d5bc9414d8ba8cf5512e366d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &431647212
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 431647209}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cf0f63d036e15f24aa00706fb12adcec, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  permission: drwxr-xr-x
+  links: 1
+  owner: user1
+  groupname: root
+  size: 0
+  date: Dec 16
+  time: 16:15
+  filename: home
+  fileType: 0
 --- !u!1 &451573750
 GameObject:
   m_ObjectHideFlags: 0
@@ -1641,6 +1676,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 965815910}
+  - component: {fileID: 965815911}
   m_Layer: 0
   m_Name: user1
   m_TagString: Untagged
@@ -1663,6 +1699,27 @@ Transform:
   m_Father: {fileID: 972869226}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &965815911
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 965815909}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cf0f63d036e15f24aa00706fb12adcec, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  permission: drwxr-xr-x
+  links: 1
+  owner: user1
+  groupname: user
+  size: 0
+  date: Dec 16
+  time: 16:15
+  filename: home
+  fileType: 1
 --- !u!1 &972869225
 GameObject:
   m_ObjectHideFlags: 0

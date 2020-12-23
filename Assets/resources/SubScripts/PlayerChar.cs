@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public static class Player
+public static class PlayerChar
 {
-    private static string _name { get; set; }
+    public static string _name { get; set; }
     public static int _hp { get; set; }
-    private static int _atk { get; set; }
+    public static int _atk { get; set; }
 
 }

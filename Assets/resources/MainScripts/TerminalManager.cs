@@ -20,6 +20,8 @@ public class TerminalManager : MonoBehaviour
     private string _rawEingabe;
     private string[] _eingabe;
 
+    private GameObject tmpObj = null;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -70,19 +72,19 @@ public class TerminalManager : MonoBehaviour
         try
         {
             _rawEingabe = terminalBody.transform.GetChild(terminalBody.transform.childCount - 1).GetComponentInChildren<InputField>().text;
-
+            _rawEingabe.ToString();
             if (_rawEingabe != "")//hat der User überhaubt was geschrieben ?
             {
                 _eingabe = _rawEingabe.Split(' ');
-                string option = "";                
-                if( _eingabe.Length > 1 ) 
+                string option = "";
+                if (_eingabe.Length > 1)
                 {
                     option = _eingabe.GetValue(1).ToString();
                 }
 
-                foreach (string asd in CommandsManager.BefehleErkennen(_eingabe.GetValue(0).ToString(), option ))
+                foreach (string text in CommandsManager.BefehleErkennen(_eingabe.GetValue(0).ToString(), option))
                 {
-                    newLine(asd, false); // false because we dont need that " < " - Icon. 
+                    newLine(text, false); // false because we dont need that " < " - Icon. 
                 }
             }
         }
@@ -92,22 +94,41 @@ public class TerminalManager : MonoBehaviour
         }
         newLine(CommandsManager.GetDirectoryPath(), false);
         newLine("", true); // true cause we need that " < " icon. User can type in these lines
+
+        StartCoroutine(GoToEnd());
+    }
+
+    private IEnumerator GoToEnd()
+    {
+        yield return new WaitForEndOfFrame();
+        GetComponent<ScrollToBottom>().scrollToEnd();
     }
 
     private void newLine(string _eingabe, bool eingabe)
     {
-        GameObject tmpObj = Instantiate(zeile, terminalBody.transform);
+        tmpObj = Instantiate(zeile, terminalBody.transform);
+        TerminalRow row = tmpObj.GetComponent<TerminalRow>();
+        if(_eingabe != null)
+        {
+            _eingabe = _eingabe.Replace(@"\t","\t");
+            _eingabe = _eingabe.Replace(@"\n","\n");
+        }
         tmpObj.GetComponentInChildren<InputField>().text = _eingabe;
-        tmpObj.GetComponentInChildren<InputField>().ActivateInputField();
-        
-        if(eingabe)
+
+        if (eingabe)
         {
             tmpObj.GetComponentInChildren<Text>().text = ">";
-        }else{
+            tmpObj.GetComponentInChildren<InputField>().ActivateInputField();
+        }
+        else
+        {
             tmpObj.GetComponentInChildren<Text>().text = " ";
+            tmpObj.GetComponentInChildren<InputField>().readOnly = true;
             tmpObj.GetComponentInChildren<Text>().GetComponent<LayoutElement>().preferredWidth = 10;
             tmpObj.GetComponentInChildren<Text>().GetComponent<LayoutElement>().preferredHeight = 30;
         }
+
+        GetComponent<ScrollToBottom>().scrollToEnd();
         
     }
 
@@ -123,7 +144,7 @@ public class TerminalManager : MonoBehaviour
 
     public void Delete()
     {
-        if(transform.parent.childCount > 1 )
+        if (transform.parent.childCount > 1)
         {
             this.transform.parent.GetChild(this.transform.GetSiblingIndex() - 1).gameObject.tag = "Fokussed";
         }
