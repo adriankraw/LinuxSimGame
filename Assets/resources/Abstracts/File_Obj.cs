@@ -22,5 +22,6 @@ public class File_Obj: MonoBehaviour
     void Awake()
     {
         filename = this.name;
+        size = this.transform.childCount;
     }
 }

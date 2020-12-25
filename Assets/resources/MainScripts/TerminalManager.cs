@@ -20,6 +20,10 @@ public class TerminalManager : MonoBehaviour
     private string _rawEingabe;
     private string[] _eingabe;
 
+    private Stack<String> _rawEingabenHistory;
+    private Stack<String> _tmphistory;
+    private int historyPointer;
+
     private GameObject tmpObj = null;
 
     // Start is called before the first frame update
@@ -32,6 +36,11 @@ public class TerminalManager : MonoBehaviour
         {
             knoten = this.transform.parent.gameObject;
         }
+        historyPointer = 0;
+
+        _rawEingabenHistory = new Stack<string>(10);
+        _rawEingabenHistory.Push(" ");
+        _tmphistory = new Stack<string>(10);
     }
 
     // Update is called once per frame
@@ -45,6 +54,37 @@ public class TerminalManager : MonoBehaviour
                 {
                     //Die Hauptmethode die alle eingaben lesen kann
                     readInput();
+                    while (_tmphistory.Count > 0)
+                    {
+                        _rawEingabenHistory.Push(_tmphistory.Pop());
+                    }
+                }
+                if(terminalBody.transform.GetChild(terminalBody.transform.childCount - 1).GetComponentInChildren<InputField>().text == "" && Input.GetKeyDown(KeyCode.Backspace))
+                {
+                    while (_tmphistory.Count > 0)
+                    {
+                        _rawEingabenHistory.Push(_tmphistory.Pop());
+                    }
+                }
+            }
+            if (Input.GetKeyDown(KeyCode.UpArrow))
+            {
+                try{
+                    if(_rawEingabenHistory.Count == 0)return;
+                    terminalBody.transform.GetChild(terminalBody.transform.childCount - 1).GetComponentInChildren<InputField>().text = _rawEingabenHistory.Peek();
+                    _tmphistory.Push(_rawEingabenHistory.Pop());
+                }catch(Exception e){
+                    Debug.Log(e);
+                }
+            }
+            if (Input.GetKeyDown(KeyCode.DownArrow))
+            {
+                try{
+                    if(_tmphistory.Count == 0)return;
+                    terminalBody.transform.GetChild(terminalBody.transform.childCount - 1).GetComponentInChildren<InputField>().text = _tmphistory.Peek();
+                    _rawEingabenHistory.Push(_tmphistory.Pop());
+                }catch(Exception e){
+                    Debug.Log(e);
                 }
             }
             if (Input.GetKey(SuperKey) && Input.GetKeyDown(KeyCode.Return))
@@ -73,6 +113,15 @@ public class TerminalManager : MonoBehaviour
         {
             _rawEingabe = terminalBody.transform.GetChild(terminalBody.transform.childCount - 1).GetComponentInChildren<InputField>().text;
             _rawEingabe.ToString();
+
+            _rawEingabenHistory.Push(_rawEingabe);
+
+            while(_rawEingabenHistory.Count >= 10)
+            {
+                _rawEingabenHistory.Pop();
+            }
+
+
             if (_rawEingabe != "")//hat der User überhaubt was geschrieben ?
             {
                 _eingabe = _rawEingabe.Split(' ');
