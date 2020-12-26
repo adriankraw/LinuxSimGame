@@ -54,7 +54,17 @@ public class CommandsManager : MonoBehaviour
                 }
                 break;
             case "man":
-                if (_option == "" || _option == "all" || _option != "") //last ro- check is chust for testing purpose
+                if(_option == "game")
+                {
+                    _eingabe[0] =@" _      _                   _____ _           "+@"\n"+
+                                 @"| |    (_)                 / ____(_)          "+@"\n"+
+                                 @"| |     _ _ __  _   ___  _| (___  _ _ __ ___  "+@"\n"+
+                                 @"| |    | | '_ \| | | \ \/ /\___ \| | '_ ` _ \ "+@"\n"+
+                                 @"| |____| | | | | |_| |>  < ____) | | | | | | |"+@"\n"+
+                                 @"|______|_|_| |_|\__,_/_/\_\_____/|_|_| |_| |_|"+@"\n";
+                    _eingabe[0] += "\nDas Spiel Beginnt: \ngebe deinen ersten Befehl ein und starte dein Abenteuer: \t ./home/game.sh \n";
+                }
+                if (_option == "") //last ro- check is chust for testing purpose
                 {
                     _eingabe = manual;
                 }
