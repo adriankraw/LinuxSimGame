@@ -177,6 +177,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7228082193228264721}
   - component: {fileID: 7042093390615291902}
+  - component: {fileID: 7279198443132739185}
   - component: {fileID: 8389371002843876234}
   - component: {fileID: 8970270144826202127}
   m_Layer: 5
@@ -224,6 +225,19 @@ MonoBehaviour:
   zeile: {fileID: 3168222720145343446, guid: 385f9885176ce944f9db2784bb900dfe, type: 3}
   string2: Terminals/Prefaps/TerminalEmpty_Prefap
   SuperKey: 308
+--- !u!114 &7279198443132739185
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7228082193228264722}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: af14fb2c689d4084e9d1685065b3274d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  content: {fileID: 5271637921269668381}
 --- !u!114 &8389371002843876234
 MonoBehaviour:
   m_ObjectHideFlags: 0
