@@ -59,32 +59,38 @@ public class TerminalManager : MonoBehaviour
                         _rawEingabenHistory.Push(_tmphistory.Pop());
                     }
                 }
-                if(terminalBody.transform.GetChild(terminalBody.transform.childCount - 1).GetComponentInChildren<InputField>().text == "" && Input.GetKeyDown(KeyCode.Backspace))
+                if (terminalBody.transform.GetChild(terminalBody.transform.childCount - 1).GetComponentInChildren<InputField>().text == "" && Input.GetKeyDown(KeyCode.Backspace))
                 {
                     while (_tmphistory.Count > 0)
                     {
                         _rawEingabenHistory.Push(_tmphistory.Pop());
                     }
                 }
-            }
-            if (Input.GetKeyDown(KeyCode.UpArrow))
-            {
-                try{
-                    if(_rawEingabenHistory.Count == 0)return;
-                    terminalBody.transform.GetChild(terminalBody.transform.childCount - 1).GetComponentInChildren<InputField>().text = _rawEingabenHistory.Peek();
-                    _tmphistory.Push(_rawEingabenHistory.Pop());
-                }catch(Exception e){
-                    Debug.Log(e);
+                if (Input.GetKeyDown(KeyCode.UpArrow))
+                {
+                    try
+                    {
+                        if (_rawEingabenHistory.Count == 0) return;
+                        terminalBody.transform.GetChild(terminalBody.transform.childCount - 1).GetComponentInChildren<InputField>().text = _rawEingabenHistory.Peek();
+                        _tmphistory.Push(_rawEingabenHistory.Pop());
+                    }
+                    catch (Exception e)
+                    {
+                        Debug.Log(e);
+                    }
                 }
-            }
-            if (Input.GetKeyDown(KeyCode.DownArrow))
-            {
-                try{
-                    if(_tmphistory.Count == 0)return;
-                    terminalBody.transform.GetChild(terminalBody.transform.childCount - 1).GetComponentInChildren<InputField>().text = _tmphistory.Peek();
-                    _rawEingabenHistory.Push(_tmphistory.Pop());
-                }catch(Exception e){
-                    Debug.Log(e);
+                if (Input.GetKeyDown(KeyCode.DownArrow))
+                {
+                    try
+                    {
+                        if (_tmphistory.Count == 0) return;
+                        terminalBody.transform.GetChild(terminalBody.transform.childCount - 1).GetComponentInChildren<InputField>().text = _tmphistory.Peek();
+                        _rawEingabenHistory.Push(_tmphistory.Pop());
+                    }
+                    catch (Exception e)
+                    {
+                        Debug.Log(e);
+                    }
                 }
             }
             if (Input.GetKey(SuperKey) && Input.GetKeyDown(KeyCode.Return))
@@ -95,14 +101,30 @@ public class TerminalManager : MonoBehaviour
             {
                 Delete();
             }
-            //Restliche Eingabe muss abgefragt werden, damit Befehle funktionieren
-            if (Input.GetKey(SuperKey) && Input.GetKey(KeyCode.H))
+            if (Input.GetKey(SuperKey) && (Input.GetKeyDown(KeyCode.UpArrow)||Input.GetKeyDown(KeyCode.LeftArrow)) 
+            && transform.GetSiblingIndex()!=0) //gibt es übermir überhaubt was ?
             {
-                knoten.GetComponent<FlexibleGridLayout>().SetLayoutHorizontal();
+                Transform parent = this.transform.parent;
+                int index = transform.GetSiblingIndex();
+                
+                parent.GetChild(index-1).GetComponent<TerminalClickHandler>().SelectInputField();
             }
-            if (Input.GetKey(SuperKey) && Input.GetKey(KeyCode.V))
+            if (Input.GetKey(SuperKey) && (Input.GetKeyDown(KeyCode.DownArrow)||Input.GetKeyDown(KeyCode.RightArrow)) 
+            && transform.GetSiblingIndex()<transform.childCount )// bin ich das letzte element ?
             {
-                knoten.GetComponent<FlexibleGridLayout>().SetLayoutVertical();
+                Transform parent = this.transform.parent;
+                int index = transform.GetSiblingIndex();
+         
+                parent.GetChild(index+1).GetComponent<TerminalClickHandler>().SelectInputField();
+            }
+            //Restliche Eingabe muss abgefragt werden, damit Befehle funktionieren
+            if (Input.GetKey(SuperKey) && Input.GetKeyDown(KeyCode.B))
+            {
+                knoten.GetComponent<FlexibleGridLayout>().fitType = FitType.Heigth;
+            }
+            if (Input.GetKey(SuperKey) && Input.GetKeyDown(KeyCode.V))
+            {
+                knoten.GetComponent<FlexibleGridLayout>().fitType = FitType.Width;
             }
         }
     }
@@ -116,7 +138,7 @@ public class TerminalManager : MonoBehaviour
 
             _rawEingabenHistory.Push(_rawEingabe);
 
-            while(_rawEingabenHistory.Count >= 10)
+            while (_rawEingabenHistory.Count >= 10)
             {
                 _rawEingabenHistory.Pop();
             }
@@ -131,7 +153,7 @@ public class TerminalManager : MonoBehaviour
                     option = _eingabe.GetValue(1).ToString();
                 }
 
-                foreach (string text in CommandsManager.BefehleErkennen(_eingabe.GetValue(0).ToString(), option))
+                foreach (string text in CommandsManager.BefehleErkennen(_eingabe.GetValue(0).ToString(), option)) //für jeden string, der als Ergebnis von befehleErkennen erzeugt wird
                 {
                     newLine(text, false); // false because we dont need that " < " - Icon. 
                 }
@@ -157,10 +179,10 @@ public class TerminalManager : MonoBehaviour
     {
         tmpObj = Instantiate(zeile, terminalBody.transform);
         TerminalRow row = tmpObj.GetComponent<TerminalRow>();
-        if(_eingabe != null)
+        if (_eingabe != null)
         {
-            _eingabe = _eingabe.Replace(@"\t","\t");
-            _eingabe = _eingabe.Replace(@"\n","\n");
+            _eingabe = _eingabe.Replace(@"\t", "\t");
+            _eingabe = _eingabe.Replace(@"\n", "\n");
         }
         tmpObj.GetComponentInChildren<InputField>().text = _eingabe;
 
@@ -178,7 +200,7 @@ public class TerminalManager : MonoBehaviour
         }
 
         GetComponent<ScrollToBottom>().scrollToEnd();
-        
+
     }
 
     public void Erzeugen()

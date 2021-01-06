@@ -20,6 +20,5 @@ public class TerminalKnoten : MonoBehaviour
     {
         GameObject newTerminal = Instantiate(Resources.Load<GameObject>(string2), this.transform);
         newTerminal.tag = "Fokussed";
-     
     }
 }
