@@ -54,10 +54,6 @@ public class TerminalManager : MonoBehaviour
                 {
                     //Die Hauptmethode die alle eingaben lesen kann
                     readInput();
-                    while (_tmphistory.Count > 0)
-                    {
-                        _rawEingabenHistory.Push(_tmphistory.Pop());
-                    }
                 }
                 if (terminalBody.transform.GetChild(terminalBody.transform.childCount - 1).GetComponentInChildren<InputField>().text == "" && Input.GetKeyDown(KeyCode.Backspace))
                 {
@@ -101,21 +97,21 @@ public class TerminalManager : MonoBehaviour
             {
                 Delete();
             }
-            if (Input.GetKey(SuperKey) && (Input.GetKeyDown(KeyCode.UpArrow)||Input.GetKeyDown(KeyCode.LeftArrow)) 
-            && transform.GetSiblingIndex()!=0) //gibt es übermir überhaubt was ?
+            if (Input.GetKey(SuperKey) && (Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.LeftArrow))
+            && transform.GetSiblingIndex() != 0) //gibt es übermir überhaubt was ?
             {
                 Transform parent = this.transform.parent;
                 int index = transform.GetSiblingIndex();
-                
-                parent.GetChild(index-1).GetComponent<TerminalClickHandler>().SelectInputField();
+
+                parent.GetChild(index - 1).GetComponent<TerminalClickHandler>().SelectInputField();
             }
-            if (Input.GetKey(SuperKey) && (Input.GetKeyDown(KeyCode.DownArrow)||Input.GetKeyDown(KeyCode.RightArrow)) 
-            && transform.GetSiblingIndex()<transform.childCount )// bin ich das letzte element ?
+            if (Input.GetKey(SuperKey) && (Input.GetKeyDown(KeyCode.DownArrow) || Input.GetKeyDown(KeyCode.RightArrow))
+            && transform.GetSiblingIndex() < transform.childCount)// bin ich das letzte element ?
             {
                 Transform parent = this.transform.parent;
                 int index = transform.GetSiblingIndex();
-         
-                parent.GetChild(index+1).GetComponent<TerminalClickHandler>().SelectInputField();
+
+                parent.GetChild(index + 1).GetComponent<TerminalClickHandler>().SelectInputField();
             }
             //Restliche Eingabe muss abgefragt werden, damit Befehle funktionieren
             if (Input.GetKey(SuperKey) && Input.GetKeyDown(KeyCode.B))
@@ -136,13 +132,24 @@ public class TerminalManager : MonoBehaviour
             _rawEingabe = terminalBody.transform.GetChild(terminalBody.transform.childCount - 1).GetComponentInChildren<InputField>().text;
             _rawEingabe.ToString();
 
+            while (_tmphistory.Count > 0)
+            {
+                _rawEingabenHistory.Push(_tmphistory.Pop());
+            }
             _rawEingabenHistory.Push(_rawEingabe);
 
-            while (_rawEingabenHistory.Count >= 10)
+            if (_rawEingabenHistory.Count > 10)
             {
+                while (_rawEingabenHistory.Count > 1)
+                {
+                    _tmphistory.Push(_rawEingabenHistory.Pop());
+                }
                 _rawEingabenHistory.Pop();
+                while (_tmphistory.Count > 0)
+                {
+                    _rawEingabenHistory.Push(_tmphistory.Pop());
+                }
             }
-
 
             if (_rawEingabe != "")//hat der User überhaubt was geschrieben ?
             {
