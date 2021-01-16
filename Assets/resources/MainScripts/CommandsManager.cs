@@ -214,6 +214,7 @@ public class CommandsManager : MonoBehaviour
         Stack<string> stack = new Stack<string>();
         stack.Push(_currentDirectory.name);
         GameObject tmp_currentDirectory = _currentDirectory;
+        int first = 0;
 
         while (tmp_currentDirectory.tag != "RootDictory")
         {
@@ -221,9 +222,14 @@ public class CommandsManager : MonoBehaviour
             stack.Push(tmp_currentDirectory.name);
         }
 
-        while (stack.Count != 0)
+        while (stack.Count > 0)
         {
-            path += stack.Pop();
+            if(first<2){
+                path += stack.Pop();
+                first++;
+            }else{
+                path += "/"+stack.Pop();
+            }
         }
         //stack backwords
         return path;
