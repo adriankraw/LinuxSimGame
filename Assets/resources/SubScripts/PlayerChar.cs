@@ -9,6 +9,5 @@ public static class PlayerChar
     public static int _atk { get; set; }
     public static int _exp { get; set; }
     public static int _lvl { get; set; }
-
-
+    public static int _lvlPoints { get; set; }
 }

@@ -7,39 +7,43 @@ public class CommandsManager : MonoBehaviour
 {
 
     private static string[] directry = { "/", "    - bin" };
-    private static string[] manual = { "Das Spiel functioniert so: ", "du schreibst hier deine Befehle rein", "und der Computer sorgt dafür, dass dieser ausgeführt wird.", "vielleicht versucht du es man mit 'man game'" };
+    private static string[] manual = { "Das Spiel functioniert so:" };
     private static string[] update = { "System Updating... ", "0% - 100%" };
     private static string[] error = { "", "not found. Try Again. Or check the Manuel" };
 
     public static GameObject _currentDirectory;
 
-    public static string[] BefehleErkennen(string _befehl, string _option)
+    public static string[] BefehleErkennen(string _befehl, string[] _option)
     {
-        string[] _eingabe = new string[] { "" };
-        Debug.Log("Eingabe: "+_befehl+" "+_option);
+        string[] _eingabe = new string[] { "", "" };
+        Debug.Log("Eingabe: "+_befehl+" "+_option[0]);
         switch (_befehl)
         {
             case "":
                 break;
             case "cd":
-                cdMethode(_option);
+                cdMethode(_option[0]);
+                _eingabe[1] = StoryCommander.StoryTelling(_currentDirectory.name);
                 break;
             case "apt-get":
-                _eingabe = aptGetMethode(_option, _eingabe);
+                _eingabe = aptGetMethode(_option[0], _eingabe);
                 break;
             case "man":
-                _eingabe = ManMehode(_option, _eingabe);
+                _eingabe = ManMehode(_option[0], _eingabe);
                 break;
             case "dir":
             case "ls":
-                _eingabe = LsMethode(_option, _eingabe);
+                _eingabe = LsMethode(_option[0], _eingabe);
                 break;
             case "player":
-                playerMethode(_option, _eingabe);
+                _eingabe = playerMethode(_option, _eingabe);
                 break;
             case "whoami":
-                _eingabe[0] = "student: 00102";
+                _eingabe[0] = "student: "+ PlayerChar._name;
                 break;
+            case string dummy when _befehl.StartsWith("./"):
+                _eingabe[0] = "Runs a software";
+            break;
             default:
                 error[0] = _befehl;
                 _eingabe = error;
@@ -48,31 +52,36 @@ public class CommandsManager : MonoBehaviour
         return _eingabe;
     }
 
-    private static void playerMethode(string _option, string[] _eingabe)
+    private static string[] playerMethode(string[] _option, string[] _eingabe)
     {
-        switch (_option)
+        switch (_option[0])
         {
             case "name":
-            case "n":
-                _eingabe[0] = "player Name: "+ PlayerChar._name;
+            case "-n":
+                if(_option.Length==2 && _option[1] != "")
+                {
+                    PlayerChar._name = _option[1];
+                }
+                _eingabe[0] = "Player name: "+ PlayerChar._name;
                 break;
             case "hp":
                 _eingabe[0] = "";
             break;
             case "":
             case "stats":
-                _eingabe[0] = "player stats are: " + @"\n" + @"\n" +
-                 "Name: "+PlayerChar._name+ @"\n" +
-                 "Hp: "+PlayerChar._hp+ @"\n" +
-                 "Atk: "+PlayerChar._atk+ @"\n" +
-                 "Lvl: "+PlayerChar._lvl+ @"\n" +
-                 "Exp: "+PlayerChar._exp+"/100";
+                _eingabe[0] = "Your stats are: " + @"\n" + @"\n" +
+                              "Name: "+PlayerChar._name+ @"\n" +
+                              "Hp: "+PlayerChar._hp+ @"\n" +
+                              "Atk: "+PlayerChar._atk+ @"\n" +
+                              "Lvl: "+PlayerChar._lvl+ @"\n" +
+                              "Exp: "+PlayerChar._exp+"/100";
 
                 break;
             default:
-                _eingabe[0] = "player does support " + _option + ". Consider checking the manuel for more information.";
+                _eingabe[0] = "player doesn't support " + _option + ". Consider checking the manuel for more information.";
                 break;
         }
+        return _eingabe;
     }
 
     private static string[] LsMethode(string _option, string[] _eingabe)
@@ -96,15 +105,8 @@ public class CommandsManager : MonoBehaviour
     {
         switch (_option)
         {
-            case "game":
-                _eingabe[0] = @" _      _                   _____ _           " + @"\n" +
-                              @"| |    (_)                 / ____(_)          " + @"\n" +
-                              @"| |     _ _ __  _   ___  _| (___  _ _ __ ___  " + @"\n" +
-                              @"| |    | | '_ \| | | \ \/ /\___ \| | '_ ` _ \ " + @"\n" +
-                              @"| |____| | | | | |_| |>  < ____) | | | | | | |" + @"\n" +
-                              @"|______|_|_| |_|\__,_/_/\_\_____/|_|_| |_| |_|" + @"\n";
-                              
-                _eingabe[0] += "\nDas Spiel Beginnt: \nKannst du dir den Namen deines Spielers anzeigen lassen ?: \t Tipp: 'man player' \n";
+            case "game":                              
+                _eingabe[0]  = "\nDas Spiel Beginnt: \nKannst du dir den Namen deines Spielers anzeigen lassen ?: \t Tipp: 'man player' \n";
                 _eingabe[0] += "\nbenutze 'cd' und 'ls' um dich durch deine Ordnerstruktur zu bewegen\n";
             break;
             case "asd": 
@@ -117,9 +119,35 @@ public class CommandsManager : MonoBehaviour
                 _eingabe[0] ="Mit hilfe von 'player' bist du im stande. deinen Spielcharacter zu steuern und zu beeinflussen"+@"\n"+@"\n";
                 _eingabe[0]+="player n oder name          anzeigen des characternamens"+@"\n";
                 _eingabe[0]+="player stats                zeigt die statuswerte an";
+                _eingabe[0]+="player dungeons             gibt die Namen aller bekannten Dungeons wieder";
+            break;
+            case "cd":
+                _eingabe[0] ="du kannst den 'cd'-Befehl um dich innerhalb der Ordnerstruktur zu bewegen.";
+                _eingabe[0]+=@"\n";
+                _eingabe[0]+="Befindest du dich im Ordner '/' und möchtest in den 'home' Ordner, So nutzt du: ";
+                _eingabe[0]+=@"\n";
+                _eingabe[0]+="'cd home'";
+                _eingabe[0]+=@"\n";
+                _eingabe[0]+="möchtest du wieder zurück in den '/' Ordner so nutzt du:";
+                _eingabe[0]+=@"\n";
+                _eingabe[0]+="'cd ..'";
             break;
             default:
-                _eingabe = manual;
+                _eingabe[0] =   @" _      _                   _____ _           " + @"\n" +
+                                @"| |    (_)                 / ____(_)          " + @"\n" +
+                                @"| |     _ _ __  _   ___  _| (___  _ _ __ ___  " + @"\n" +
+                                @"| |    | | '_ \| | | \ \/ /\___ \| | '_ ` _ \ " + @"\n" +
+                                @"| |____| | | | | |_| |>  < ____) | | | | | | |" + @"\n" +
+                                @"|______|_|_| |_|\__,_/_/\_\_____/|_|_| |_| |_|" + @"\n";
+                _eingabe[0]+=@"\n";
+                _eingabe[0]+="In diesem Spiel nutzt du verschiedene Befehle um dich in einem virtuellen Raum zu bewergen. Dabei steht jeder Befehl für eine ganz bestimmte Funktion! So funktioniert der 'man'-Befehl wie eine Bedienungsanleitung mit unglaublich vielen Kapiteln.";
+                _eingabe[0]+=@"\n";
+                _eingabe[0]+=@"\n";
+                _eingabe[0]+="Weitere Möglichkeiten des 'man'-Befehles sind 'man cd' oder 'man ls' wo du mehr zur Funktionweise von 'cd' oder 'ls' erfahren kannst.";
+                _eingabe[0]+=@"\n";
+                _eingabe[0]+="Falls du noch mehr Informationen zum Spiel erhalten möchtest so nutze den Befehl 'man game'.";
+                _eingabe[0]+=@"\n";
+                _eingabe[0]+="Ansonsten wünsche ich dir !!!!viel Spaß!!!!";
             break;
         }
 

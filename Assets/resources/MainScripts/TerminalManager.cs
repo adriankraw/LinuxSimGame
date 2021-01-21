@@ -154,10 +154,11 @@ public class TerminalManager : MonoBehaviour
             if (_rawEingabe != "")//hat der User überhaubt was geschrieben ?
             {
                 _eingabe = _rawEingabe.Split(' ');
-                string option = "";
+                string[] option = new string[] { "", "" };
                 if (_eingabe.Length > 1)
                 {
-                    option = _eingabe.GetValue(1).ToString();
+                    option[0] = _eingabe.GetValue(1).ToString();
+                    if (_eingabe.Length >2) option[1] = _eingabe.GetValue(2).ToString();
                 }
 
                 foreach (string text in CommandsManager.BefehleErkennen(_eingabe.GetValue(0).ToString(), option)) //für jeden string, der als Ergebnis von befehleErkennen erzeugt wird
