@@ -19,4 +19,9 @@ public class Monster : ScriptableObject
     public int Verteidigen(int schaden){
         return (hp-schaden >= 0) ? (hp-=schaden) : 0;
     }
+
+    public int GetAnzahl()
+    {
+        return (int) Random.Range(anzahl.x,anzahl.y);
+    }
 }

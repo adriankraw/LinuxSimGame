@@ -2505,6 +2505,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1169688667}
   - component: {fileID: 1169688669}
+  - component: {fileID: 1169688668}
   m_Layer: 0
   m_Name: Monsters
   m_TagString: Untagged
@@ -2526,6 +2527,21 @@ Transform:
   m_Father: {fileID: 965815910}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1169688668
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1169688666}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f34c91b35d0a04e45acef8eb80a76f14, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  place: {fileID: 11400000, guid: b4c634634a76a0346a289b0df38c74f7, type: 2}
+  MonsterObj: {fileID: 628296998989463850, guid: 0b83119e2ae95d1478acb320faed119a,
+    type: 3}
 --- !u!114 &1169688669
 MonoBehaviour:
   m_ObjectHideFlags: 0

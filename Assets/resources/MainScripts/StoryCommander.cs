@@ -13,13 +13,15 @@ public static class StoryCommander
         string _eingabe = "";
         string a = PlayerChar._name;
         if(keywords == PlayerChar._name && !storyDictionary.ContainsKey(PlayerChar._name)){
-            _eingabe = "Hmm seams like you are not the only one in here:";
+            _eingabe = "Hmmm, du scheinst nicht alleine zu sein:";
             _eingabe+= @"\n";
-            _eingabe+= "What are you going to do ?";
+            _eingabe+= "Was wirst du tun ?";
             storyDictionary[PlayerChar._name] = true;
         }else
-        if(keywords == "/*"){
-            
+        if(keywords == "home"){
+            _eingabe = "Dies ist ein Ordner indem nutzerspezifische Daten gespeichert werden.";
+            _eingabe+= @"\n";
+            _eingabe+= "Diese Daten können unteranderem Programme, Konfigurationsdateien und von dir erstellte Ordner sein.";
         }
         else{
             return "";
