@@ -12,6 +12,15 @@ public class GetMonster : MonoBehaviour
     public int anzahl => _monster.GetAnzahl();
     public int hp => _monster.hp;
     public int atk => _monster.atk;
-    public void Angriff() => _monster.Angreifen();
-
+    public bool dead => _monster.dead;
+    public int Angriff() => _monster.Angreifen();
+    public void Verteidigen(int x) => _monster.Verteidigen(x);
+    public void Drop(Transform tran) { 
+        GameObject dropped = Instantiate(_monster.Drop(),tran); 
+        dropped.name = "itemDrop";
+    }
+    public int Die()
+    {
+        return _monster.Die();
+    }
 }

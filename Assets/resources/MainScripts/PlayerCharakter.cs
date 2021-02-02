@@ -9,7 +9,8 @@ public class PlayerCharakter : MonoBehaviour
     void Start()
     {
         PlayerChar._name = "user1";
-        PlayerChar._hp = 100;
+        PlayerChar._maxhp = 100;
+        PlayerChar._hp = PlayerChar._maxhp;
         PlayerChar._atk = 10;
         PlayerChar._lvl = 1;
         PlayerChar._lvlPoints = 0;
@@ -27,5 +28,4 @@ public class PlayerCharakter : MonoBehaviour
         PlayerChar._lvlPoints = PlayerChar._lvlPoints + 5;
         yield return new WaitForEndOfFrame();
     }
-
 }

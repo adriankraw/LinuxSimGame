@@ -15,6 +15,7 @@ MonoBehaviour:
   MonsterName: Slime
   lvl: 1
   exp: 7
-  anzahl: {x: 1, y: 3}
-  hp: 50
+  anzahl: {x: 1, y: 1}
+  hp: 25
   atk: 1
+  dead: 0

@@ -13,7 +13,8 @@ MonoBehaviour:
   m_Name: Place_Home
   m_EditorClassIdentifier: 
   PlaceName: Home
-  wahrscheinlichkeit: 0.8
+  wahrscheinlichkeit: 1
   Monsters:
   - {fileID: 11400000, guid: 363d6a0eed0648345978d62d3cef742c, type: 2}
-  - {fileID: 11400000, guid: 6f34f452e36679346a677a35226eb36f, type: 2}
+  Itemdrop: {fileID: 5899022427586507760, guid: 005c5b139348cf34d8ad5a186572825d,
+    type: 3}

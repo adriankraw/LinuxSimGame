@@ -89,42 +89,44 @@ public class TerminalManager : MonoBehaviour
                     }
                 }
             }
-            if (Input.GetKey(SuperKey) && Input.GetKeyDown(KeyCode.Return))
+            else
             {
-                Erzeugen();
-            }
-            if (Input.GetKey(SuperKey) && Input.GetKey(KeyCode.LeftAlt) && Input.GetKeyDown(KeyCode.Q))
-            {
-                Delete();
-            }
-            if (Input.GetKey(SuperKey) && (Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.LeftArrow))
-            && transform.GetSiblingIndex() != 0) //gibt es übermir überhaubt was ?
-            {
-                Transform parent = this.transform.parent;
-                int index = transform.GetSiblingIndex();
-
-                parent.GetChild(index - 1).GetComponent<TerminalClickHandler>().SelectInputField();
-            }
-            if (Input.GetKey(SuperKey) && (Input.GetKeyDown(KeyCode.DownArrow) || Input.GetKeyDown(KeyCode.RightArrow))
-            && transform.GetSiblingIndex() < transform.childCount)// bin ich das letzte element ?
-            {
-                Transform parent = this.transform.parent;
-                int index = transform.GetSiblingIndex();
-
-                parent.GetChild(index + 1).GetComponent<TerminalClickHandler>().SelectInputField();
-            }
-            //Restliche Eingabe muss abgefragt werden, damit Befehle funktionieren
-            if (Input.GetKey(SuperKey) && Input.GetKeyDown(KeyCode.B))
-            {
-                knoten.GetComponent<FlexibleGridLayout>().fitType = FitType.Heigth;
-            }
-            if (Input.GetKey(SuperKey) && Input.GetKeyDown(KeyCode.V))
-            {
-                knoten.GetComponent<FlexibleGridLayout>().fitType = FitType.Width;
+                if (Input.GetKeyDown(KeyCode.Return))
+                {
+                    Erzeugen();
+                }
+                if (Input.GetKey(KeyCode.LeftAlt) && Input.GetKeyDown(KeyCode.Q))
+                {
+                    Delete();
+                }
+                if (Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.LeftArrow))
+                {
+                    if (transform.GetSiblingIndex() == 0) return;
+                    Transform parent = this.transform.parent;
+                    int index = transform.GetSiblingIndex();
+                    this.transform.tag = "Untagged";
+                    parent.GetChild(index - 1).GetComponent<TerminalClickHandler>().SelectInputField();
+                }
+                if (Input.GetKeyDown(KeyCode.DownArrow) || Input.GetKeyDown(KeyCode.RightArrow))
+                {
+                    if(this.transform.GetSiblingIndex()==transform.parent.childCount-1) return;
+                    this.transform.tag = "Untagged";
+                    int index = this.transform.GetSiblingIndex();
+                    Transform parent = this.transform.parent;
+                    parent.GetChild(index + 1).GetComponent<TerminalClickHandler>().SelectInputField();
+                }
+                //Restliche Eingabe muss abgefragt werden, damit Befehle funktionieren
+                if (Input.GetKeyDown(KeyCode.B))
+                {
+                    knoten.GetComponent<FlexibleGridLayout>().fitType = FitType.Heigth;
+                }
+                if (Input.GetKeyDown(KeyCode.V))
+                {
+                    knoten.GetComponent<FlexibleGridLayout>().fitType = FitType.Width;
+                }
             }
         }
     }
-
     private void readInput()
     {
         try
@@ -158,7 +160,7 @@ public class TerminalManager : MonoBehaviour
                 if (_eingabe.Length > 1)
                 {
                     option[0] = _eingabe.GetValue(1).ToString();
-                    if (_eingabe.Length >2) option[1] = _eingabe.GetValue(2).ToString();
+                    if (_eingabe.Length > 2) option[1] = _eingabe.GetValue(2).ToString();
                 }
 
                 foreach (string text in CommandsManager.BefehleErkennen(_eingabe.GetValue(0).ToString(), option)) //für jeden string, der als Ergebnis von befehleErkennen erzeugt wird
@@ -169,7 +171,7 @@ public class TerminalManager : MonoBehaviour
         }
         catch (Exception e)
         {
-            Debug.Log("Error: " + e);
+            newLine("Error: " + e, false);
         }
         newLine(CommandsManager.GetDirectoryPath(), false);
         newLine("", true); // true cause we need that " < " icon. User can type in these lines
@@ -218,6 +220,7 @@ public class TerminalManager : MonoBehaviour
             GameObject newTerminal = Instantiate(Resources.Load<GameObject>(string2), knoten.transform);
             this.transform.tag = "Untagged";
             newTerminal.tag = "Fokussed";
+            newTerminal.name =""+transform.parent.childCount;
         }
     }
 

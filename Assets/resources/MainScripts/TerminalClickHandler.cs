@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 public class TerminalClickHandler : MonoBehaviour, IPointerClickHandler
 {
-    [SerializeField] private Transform content;
+    [SerializeField] public Transform content;
 
     public void OnPointerClick(PointerEventData eventData)
     {
@@ -17,10 +17,11 @@ public class TerminalClickHandler : MonoBehaviour, IPointerClickHandler
     public void SelectInputField()
     {
         content.GetChild(content.childCount-1).gameObject.GetComponentInChildren<InputField>().Select();
-        foreach(Transform bro in transform.parent.GetComponentsInChildren<Transform>())
-        {
-            bro.tag ="Untagged";
-        }
-        this.tag = "Fokussed";
+        StartCoroutine(WaitForMe());
+    }
+    IEnumerator WaitForMe()
+    {
+        yield return new WaitForEndOfFrame();
+        this.transform.tag = "Fokussed";
     }
 }

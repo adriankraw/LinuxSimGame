@@ -8,6 +8,8 @@ public class FrameSettings : MonoBehaviour
     void Start()
     {
         Application.targetFrameRate = 30;
+        
+        StoryCommander.InitializeStory();
     }
 
 }
