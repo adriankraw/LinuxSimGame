@@ -19,6 +19,7 @@ public static class StoryCommander
     public static void InitializeStory() {
         storyDictionary.Add("user1", false);
         storyDictionary.Add("home", false);
+        storyDictionary.Add("bin", false);
     }
     public static string StoryTelling(string keywords)
     {
@@ -27,7 +28,11 @@ public static class StoryCommander
         if(keywords == a && storyDictionary["user1"] == false){
             _eingabe = "Hmmm, du scheinst nicht alleine zu sein:";
             _eingabe+= @"\n";
-            _eingabe+= "wenn du eine .Monsters Datei findest. Überlege ob du sie ausführen möchtest( Ausführen: './Monsters' )";
+            _eingabe+= "wenn du eine enemy Datei findest. Überlege ob du sie ausführen möchtest( Ausführen: './enemy' )";
+            _eingabe+= @"\n";
+            _eingabe+= "falls du mit einer Datei wie 'enemy' interagieren möchtest. Kannst du unteranderem auch './enemy --attack' versuchen";
+            _eingabe+= @"\n";
+            _eingabe+= "andere Dateien kannst du z.B. lesen, indem du ' --read' benutzt";
             storyDictionary["user1"] = true;
         }else
         if(keywords == "home" && storyDictionary["home"] == false){
@@ -35,6 +40,11 @@ public static class StoryCommander
             _eingabe+= @"\n";
             _eingabe+= "Diese Daten können unteranderem Programme, Konfigurationsdateien und von dir erstellte Ordner sein.";
             storyDictionary["home"] = true;
+        }else
+        if(keywords == "bin" && storyDictionary["bin"] == false){
+            _eingabe = "Dies ist ein Ordner indem du die meisten Applikationen findest.";
+            _eingabe+= @"\n";
+            storyDictionary["bin"] = true;
         }
         else{
             return "";

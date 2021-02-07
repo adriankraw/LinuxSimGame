@@ -30,6 +30,10 @@ public class CommandsManager : MonoBehaviour
                 _eingabe[0] += "So viele Fehler hast du bislang gemacht: " + Points.mistakesMade;
                 break;
             case "cd":
+                if(!PlayerChar._moveable){
+                    _eingabe[0] = "Du kannst scheinst an diesen Ort gebunden zu sein";
+                    return _eingabe;
+                }
                 cdMethode(_option[0]);
                 _eingabe[1] = StoryCommander.StoryTelling(_currentDirectory.name);
                 break;
@@ -56,12 +60,22 @@ public class CommandsManager : MonoBehaviour
                 for (int i = 0; i < _currentDirectory.transform.childCount; i++)
                 {
                     Transform _file = _currentDirectory.transform.GetChild(i);
-                    _placefile = _file?.GetComponent<PlaceFile>();
+                    try
+                    {
+                        _placefile = _file?.GetComponent<PlaceFile>();
+                    }
+                    catch
+                    {
+                        _eingabe[0] = "Es handel sich dabei nicht um eine Datei";
+                        return _eingabe;
+                    }
+
                     if (_file.name == dummy)
                     {
                         if (dummy == "enemy")
                         {
                             _eingabe[0] = "Du scheinst " + _placefile?.GetPlace() + "x Monster beschworen zu haben.";
+                            PlayerChar._moveable = false;
                         }
                         else
                         {
@@ -77,8 +91,15 @@ public class CommandsManager : MonoBehaviour
                                         {
                                             PlayerChar._exp += monster.Die();
                                             monster.Drop(_currentDirectory.transform);
-                                            Destroy(monster.gameObject);
+                                            DestroyImmediate(monster.gameObject);
                                             _eingabe[0] = "Gegner wurde besiegt! Glückwunsch";
+                                            PlayerChar._moveable = true;
+                                            for(int j = 0; j <_file.parent.childCount ;j++)
+                                            {
+                                                if(_file.parent.GetChild(j).GetComponent<GetMonster>()){
+                                                    PlayerChar._moveable = false;
+                                                }
+                                            }
                                         }
                                         else
                                         {
@@ -95,14 +116,41 @@ public class CommandsManager : MonoBehaviour
                                 case "--read":
                                     try
                                     {
-                                        _eingabe[0] = _file?.GetComponent<Briefe>().brief1;
-                                        _eingabe[1] = _file?.GetComponent<Briefe>().brief2;
+                                        _eingabe[0] = "\n";
+                                        _eingabe[1] = "\n";
+                                        try
+                                        {
+                                            string[] asd1 = _file.GetComponent<Briefe>().GetBrief1();
+                                            string[] asd2 = _file.GetComponent<Briefe>().GetBrief2();
+                                            foreach (string text in asd1)
+                                            {
+                                                _eingabe[0] += text + @"\n";
+                                            }
+                                            foreach (string text in asd2)
+                                            {
+                                                _eingabe[1] += text + @"\n";
+                                            }
+                                        }
+                                        catch
+                                        {
+                                            _eingabe[0] = _file + " kannst du nicht lesen, versuch was anderes";
+                                        }
                                     }
                                     catch
                                     {
                                         _eingabe[0] = "Versuchst du gerade " + _file.name + " zu LESEN?";
                                     }
                                     break;
+                                case "--remove":
+                                    _eingabe[0] = "Das darfst du leider nicht.";
+                                    break;
+                                case "--help":
+                                    _eingabe[0] = "Die ist eine Liste mit dir zur verfügung stehenden Parameter\n\n";
+                                    _eingabe[0] += "./Datei --attack              damit kannst du einen Angriff ausführen\n";
+                                    _eingabe[0] += "./Datei --read                gibt den Text aus\n";
+                                    _eingabe[0] += "\n";
+                                    _eingabe[0] += "Achtung: nicht jede Datei reagiert auf jeden Parameter";
+                                break;
                             }
                         }
                     }
@@ -182,12 +230,14 @@ public class CommandsManager : MonoBehaviour
         switch (_option)
         {
             case "game":
-                _eingabe[0] = "Das Spiel Beginnt: \nKannst du dir den Namen deines Spielers anzeigen lassen ?\n";
+                _eingabe[0] = "Hast du schon verstanden wie der 'man'-Befehl funktioniert?\n";
                 _eingabe[0] += "\nTipps:\n";
                 _eingabe[0] += "'man player' zeigt dir alle Funktionalitätten des 'player'-Befehles\n";
+                _eingabe[0] += "Hier zwei weitere Befehle\n";
                 _eingabe[0] += "benutze 'cd' und 'ls' um dich durch deine Ordnerstruktur zu bewegen\n";
                 _eingabe[0] += @"schreibe '.\'+'Name einer Datei', um diese Datei auszuführen \n";
                 _eingabe[0] += "\nnun reicht es auch mit den Tipps. Geh erst einmal nach Hause und ruhe dich aus.";
+                _eingabe[0] += "\nPS: Falls du etwas vergessen hast kannst du 'man game' jederzeit erneut ausführen";
                 break;
             case "asdf":
                 _eingabe[0] = "ist ..... eine 'besondere' Leistung";
@@ -223,7 +273,7 @@ public class CommandsManager : MonoBehaviour
                                 @"| |____| | | | | |_| |>  < ____) | | | | | | |" + @"\n" +
                                 @"|______|_|_| |_|\__,_/_/\_\_____/|_|_| |_| |_|" + @"\n";
                 _eingabe[0] += @"\n";
-                _eingabe[0] += "In diesem Spiel nutzt du verschiedene Befehle um dich in einem virtuellen Raum zu bewergen. Dabei steht jeder Befehl für eine ganz bestimmte Funktion! So funktioniert der 'man'-Befehl wie eine Bedienungsanleitung mit unglaublich vielen Kapiteln.";
+                _eingabe[0] += "In diesem Spiel nutzt du verschiedene Befehle um dich in einem virtuellen Raum zu bewegen. Dabei steht jeder Befehl für eine ganz bestimmte Funktion! So funktioniert der 'man'-Befehl wie eine Bedienungsanleitung mit unglaublich vielen Kapiteln.";
                 _eingabe[0] += @"\n";
                 _eingabe[0] += @"\n";
                 _eingabe[0] += "Weitere Möglichkeiten des 'man'-Befehles sind 'man cd' oder 'man ls' wo du mehr zur Funktionweise von 'cd' oder 'ls' erfahren kannst.";

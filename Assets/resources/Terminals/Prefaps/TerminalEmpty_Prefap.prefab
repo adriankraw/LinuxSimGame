@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 5271637921269668381}
   - component: {fileID: 7884036875693250553}
   - component: {fileID: 4363486031643085741}
-  m_Layer: 5
+  m_Layer: 8
   m_Name: Content
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -89,7 +89,7 @@ GameObject:
   - component: {fileID: 4858410612509935398}
   - component: {fileID: 7228082192756882130}
   - component: {fileID: 7228082192756882131}
-  m_Layer: 5
+  m_Layer: 8
   m_Name: Body_Panel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -180,7 +180,7 @@ GameObject:
   - component: {fileID: 7279198443132739185}
   - component: {fileID: 8389371002843876234}
   - component: {fileID: 8970270144826202127}
-  m_Layer: 5
+  m_Layer: 8
   m_Name: TerminalEmpty_Prefap
   m_TagString: Untagged
   m_Icon: {fileID: 0}

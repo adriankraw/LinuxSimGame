@@ -11,9 +11,17 @@ public class TerminalClickHandler : MonoBehaviour, IPointerClickHandler
     public void OnPointerClick(PointerEventData eventData)
     {
         //Debug.Log("I was clicked");
-        SelectInputField();
+        ClickInputField();
     }
-
+    public void ClickInputField()
+    {
+        for(int i = 0; i< transform.parent.childCount; i++)
+        {
+            transform.parent.GetChild(i).tag = "Untagged";
+        }
+        content.GetChild(content.childCount-1).gameObject.GetComponentInChildren<InputField>().Select();
+        StartCoroutine(WaitForMe());
+    }
     public void SelectInputField()
     {
         content.GetChild(content.childCount-1).gameObject.GetComponentInChildren<InputField>().Select();
@@ -23,5 +31,10 @@ public class TerminalClickHandler : MonoBehaviour, IPointerClickHandler
     {
         yield return new WaitForEndOfFrame();
         this.transform.tag = "Fokussed";
+    }
+    public IEnumerator WaitForUnFokussed()
+    {
+        yield return new WaitForEndOfFrame();
+        this.transform.tag = "Untagged";
     }
 }

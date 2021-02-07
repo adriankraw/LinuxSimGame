@@ -11,6 +11,7 @@ public static class PlayerChar
     public static int _exp { get; set; }
     public static int _lvl { get; set; }
     public static int _lvlPoints { get; set; }
+    public static bool _moveable { get; set; }
     public static void Verteidigen(int schaden)
     {
         if (_hp - schaden <= 0)

@@ -124,6 +124,24 @@ public class TerminalManager : MonoBehaviour
                 {
                     knoten.GetComponent<FlexibleGridLayout>().fitType = FitType.Width;
                 }
+                if (Input.GetKey(KeyCode.LeftShift) && (Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.LeftArrow)))
+                {
+                    if (transform.GetSiblingIndex()-1 <= -1) return;
+
+                    int index = transform.GetSiblingIndex();
+                    this.transform.parent.GetChild(index - 1).SetSiblingIndex(index);
+                    this.GetComponent<TerminalClickHandler>().ClickInputField();
+                    StartCoroutine(this.transform.parent.GetChild(index).GetComponent<TerminalClickHandler>().WaitForUnFokussed());
+                }
+                if (Input.GetKey(KeyCode.LeftShift) && (Input.GetKeyDown(KeyCode.DownArrow) || Input.GetKeyDown(KeyCode.RightArrow)))
+                {
+                    if(this.transform.GetSiblingIndex()+1>transform.parent.childCount) return;
+
+                    int index = this.transform.GetSiblingIndex();
+                    this.transform.parent.GetChild(index + 1).SetSiblingIndex(index);
+                    this.GetComponent<TerminalClickHandler>().ClickInputField();
+                    StartCoroutine(this.transform.parent.GetChild(index).GetComponent<TerminalClickHandler>().WaitForUnFokussed());
+                }
             }
         }
     }

@@ -11,5 +11,6 @@ public class initialStart : MonoBehaviour
     {
         //Setting StringArray to current RootFileDirectory
         CommandsManager.ReadFileSystem(rootFileDirectory);
+        PlayerChar._moveable = true;
     }
 }
