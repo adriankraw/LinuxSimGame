@@ -15,16 +15,34 @@ public class TerminalClickHandler : MonoBehaviour, IPointerClickHandler
     }
     public void ClickInputField()
     {
-        for(int i = 0; i< transform.parent.childCount; i++)
+
+        Transform top = this.transform;
+        while (top.parent.GetComponent<TerminalKnoten>())
         {
-            transform.parent.GetChild(i).tag = "Untagged";
+            top = top.parent;
         }
-        content.GetChild(content.childCount-1).gameObject.GetComponentInChildren<InputField>().Select();
+        UnMarkAll(top);
+
+        content.GetChild(content.childCount - 1).gameObject.GetComponentInChildren<InputField>().Select();
         StartCoroutine(WaitForMe());
+    }
+    public void UnMarkAll(Transform top)
+    {
+        for(int i = 0; i < top.childCount;i++)
+        {
+            if(top.GetChild(i).GetComponent<TerminalKnoten>())
+            {
+                UnMarkAll(top.GetChild(i));
+            }
+            if(top.GetChild(i).tag == "Fokussed")
+            {
+                top.GetChild(i).tag = "Untagged";
+            }
+        }
     }
     public void SelectInputField()
     {
-        content.GetChild(content.childCount-1).gameObject.GetComponentInChildren<InputField>().Select();
+        content.GetChild(content.childCount - 1).gameObject.GetComponentInChildren<InputField>().Select();
         StartCoroutine(WaitForMe());
     }
     IEnumerator WaitForMe()

@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 public class TerminalManager : MonoBehaviour
 {
-    [SerializeField] private GameObject knoten;
+    [SerializeField] public GameObject knoten;
     [SerializeField] private GameObject terminal;
     [SerializeField] private GameObject terminalBody;
     [SerializeField] private GameObject zeile;
@@ -26,11 +26,16 @@ public class TerminalManager : MonoBehaviour
 
     private GameObject tmpObj = null;
 
+    private CommandsManager manager;
+    public FitType fitType;
+
     // Start is called before the first frame update
     void Start()
     {
         // erstelle die erste Zeile
-        newLine(CommandsManager.GetDirectoryPath(), false);
+        manager = new CommandsManager();
+        manager.ReadFileSystem(GameObject.FindWithTag("RootDictory"));
+        newLine(manager.GetDirectoryPath(), false);
         newLine("", true);
         if (this.transform.parent.GetComponent<FlexibleGridLayout>())
         {
@@ -41,6 +46,19 @@ public class TerminalManager : MonoBehaviour
         _rawEingabenHistory = new Stack<string>(10);
         _rawEingabenHistory.Push(" ");
         _tmphistory = new Stack<string>(10);
+
+        MonsterAttackEvent.MonsterAttack += MonsterAttacks;
+        fitType = knoten.GetComponent<FlexibleGridLayout>().fitType;
+    }
+
+    private void MonsterAttacks(int obj)
+    {
+        if (this.tag != "Fokussed") return;
+        PlayerChar.Verteidigen(obj);
+        newLine("Enemy is attacking", false);
+        newLine(PlayerChar._name + "'s HP: " + PlayerChar._hp + "/" + PlayerChar._maxhp, false);
+        newLine("", true); // true cause we need that " < " icon. User can type in these lines
+        StartCoroutine(GoToEnd());
     }
 
     // Update is called once per frame
@@ -93,40 +111,55 @@ public class TerminalManager : MonoBehaviour
             {
                 if (Input.GetKeyDown(KeyCode.Return))
                 {
-                    Erzeugen();
+                    if (knoten.GetComponent<FlexibleGridLayout>().fitType != fitType)
+                    {
+                        GameObject newKnoten = transform.parent.GetComponent<TerminalKnoten>().ErzeugeKnoten();
+                        newKnoten.tag = "Knoten";
+                        GameObject newTerminal = Erzeugen();
+                        this.transform.SetParent(newKnoten.transform);
+                        newTerminal.transform.SetParent(newKnoten.transform);
+                        this.knoten = newKnoten;
+                        StartCoroutine(RecalcKnoten(newKnoten, fitType));
+                    }
+                    else
+                    {
+                        Erzeugen();
+                    }
                 }
                 if (Input.GetKey(KeyCode.LeftAlt) && Input.GetKeyDown(KeyCode.Q))
                 {
                     Delete();
                 }
-                if (Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.LeftArrow))
+                if (Input.GetKeyDown(KeyCode.LeftArrow))
                 {
-                    if (transform.GetSiblingIndex() == 0) return;
-                    Transform parent = this.transform.parent;
-                    int index = transform.GetSiblingIndex();
-                    this.transform.tag = "Untagged";
-                    parent.GetChild(index - 1).GetComponent<TerminalClickHandler>().SelectInputField();
+                    GoUp(FitType.Width);
                 }
-                if (Input.GetKeyDown(KeyCode.DownArrow) || Input.GetKeyDown(KeyCode.RightArrow))
+                if (Input.GetKeyDown(KeyCode.UpArrow))
                 {
-                    if(this.transform.GetSiblingIndex()==transform.parent.childCount-1) return;
-                    this.transform.tag = "Untagged";
-                    int index = this.transform.GetSiblingIndex();
-                    Transform parent = this.transform.parent;
-                    parent.GetChild(index + 1).GetComponent<TerminalClickHandler>().SelectInputField();
+                    GoUp(FitType.Heigth);
+                }
+                if (Input.GetKeyDown(KeyCode.RightArrow))
+                {
+                    GoDown(FitType.Width);
+                }
+                if (Input.GetKeyDown(KeyCode.DownArrow))
+                {
+                    GoDown(FitType.Heigth);
                 }
                 //Restliche Eingabe muss abgefragt werden, damit Befehle funktionieren
                 if (Input.GetKeyDown(KeyCode.B))
                 {
-                    knoten.GetComponent<FlexibleGridLayout>().fitType = FitType.Heigth;
+                    fitType = FitType.Heigth;
+                    //knoten.GetComponent<FlexibleGridLayout>().fitType = FitType.Heigth;
                 }
                 if (Input.GetKeyDown(KeyCode.V))
                 {
-                    knoten.GetComponent<FlexibleGridLayout>().fitType = FitType.Width;
+                    fitType = FitType.Width;
+                    //knoten.GetComponent<FlexibleGridLayout>().fitType = FitType.Width;
                 }
                 if (Input.GetKey(KeyCode.LeftShift) && (Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.LeftArrow)))
                 {
-                    if (transform.GetSiblingIndex()-1 <= -1) return;
+                    if (transform.GetSiblingIndex() - 1 <= -1) return;
 
                     int index = transform.GetSiblingIndex();
                     this.transform.parent.GetChild(index - 1).SetSiblingIndex(index);
@@ -135,7 +168,7 @@ public class TerminalManager : MonoBehaviour
                 }
                 if (Input.GetKey(KeyCode.LeftShift) && (Input.GetKeyDown(KeyCode.DownArrow) || Input.GetKeyDown(KeyCode.RightArrow)))
                 {
-                    if(this.transform.GetSiblingIndex()+1>transform.parent.childCount) return;
+                    if (this.transform.GetSiblingIndex() + 1 > transform.parent.childCount) return;
 
                     int index = this.transform.GetSiblingIndex();
                     this.transform.parent.GetChild(index + 1).SetSiblingIndex(index);
@@ -144,6 +177,86 @@ public class TerminalManager : MonoBehaviour
                 }
             }
         }
+    }
+    IEnumerator RecalcKnoten(GameObject _knoten, FitType _fittype)
+    {
+        yield return new WaitForEndOfFrame();
+        _knoten.GetComponent<FlexibleGridLayout>().fitType = _fittype;
+        for (int i = 0; i < _knoten.transform.childCount; i++)
+        {
+            _knoten.transform.GetChild(i).GetComponent<TerminalManager>().fitType = _fittype;
+        }
+    }
+    private void GoUp(FitType fit)
+    {
+        int a = 0;
+        a = this.transform.GetSiblingIndex();
+        if (a == 0 && this.transform.parent.parent.GetComponent<TerminalKnoten>())
+        {
+            a = this.transform.parent.GetSiblingIndex();
+        }
+        if (a == 0) return;//Wenn immernoch a = 0 ist dann bist du das oberste Objekt
+        if (this.transform.GetSiblingIndex() == 0)
+        {
+            if (this.transform.parent.parent.GetChild(a - 1).GetComponent<TerminalKnoten>())
+            {
+                this.transform.parent.parent.GetChild(a - 1).GetChild(0).GetComponent<TerminalClickHandler>().SelectInputField();
+            }
+            else
+            {
+                this.transform.parent.parent.GetChild(a - 1).GetComponent<TerminalClickHandler>().SelectInputField();
+            }
+        }
+        else
+        {
+            if (this.transform.parent.GetChild(a - 1).GetComponent<TerminalKnoten>())
+            {
+                this.transform.parent.GetChild(a - 1).GetChild(0).GetComponent<TerminalClickHandler>().SelectInputField();
+            }
+            else
+            {
+                this.transform.parent.GetChild(a - 1).GetComponent<TerminalClickHandler>().SelectInputField();
+            }
+        }
+        this.transform.tag = "Untagged";
+    }
+    private void GoDown(FitType fit)
+    {
+        int a = 0;
+        a = this.transform.GetSiblingIndex();
+        if (a == this.transform.parent.childCount && this.transform.parent.parent.GetComponent<TerminalKnoten>())
+        {
+            a = this.transform.parent.GetSiblingIndex();
+        }
+        if (a == this.transform.parent.childCount) return;//Wenn immernoch a = ende der listen ist dann bist du das oberste Objekt
+        if (this.transform.GetSiblingIndex() == this.transform.parent.childCount - 1)
+        {
+            try
+            {
+                if (this.transform.parent.parent.GetChild(a + 1).GetComponent<TerminalKnoten>())
+                {
+                    this.transform.parent.parent.GetChild(a + 1).GetChild(0).GetComponent<TerminalClickHandler>().SelectInputField();
+                }
+                else
+                {
+                    this.transform.parent.parent.GetChild(a + 1).GetComponent<TerminalClickHandler>().SelectInputField();
+                }
+            }catch{
+                //Ein fehler im algoritmus sorgt für ein Transform child out of bounds fehler
+            }
+        }
+        else
+        {
+            if (this.transform.parent.GetChild(a + 1).GetComponent<TerminalKnoten>())
+            {
+                this.transform.parent.GetChild(a + 1).GetChild(0).GetComponent<TerminalClickHandler>().SelectInputField();
+            }
+            else
+            {
+                this.transform.parent.GetChild(a + 1).GetComponent<TerminalClickHandler>().SelectInputField();
+            }
+        }
+        this.transform.tag = "Untagged";
     }
     private void readInput()
     {
@@ -181,7 +294,7 @@ public class TerminalManager : MonoBehaviour
                     if (_eingabe.Length > 2) option[1] = _eingabe.GetValue(2).ToString();
                 }
 
-                foreach (string text in CommandsManager.BefehleErkennen(_eingabe.GetValue(0).ToString(), option)) //für jeden string, der als Ergebnis von befehleErkennen erzeugt wird
+                foreach (string text in manager.BefehleErkennen(_eingabe.GetValue(0).ToString(), option)) //für jeden string, der als Ergebnis von befehleErkennen erzeugt wird
                 {
                     newLine(text, false); // false because we dont need that " < " - Icon. 
                 }
@@ -191,7 +304,7 @@ public class TerminalManager : MonoBehaviour
         {
             newLine("Error: " + e, false);
         }
-        newLine(CommandsManager.GetDirectoryPath(), false);
+        newLine(manager.GetDirectoryPath(), false);
         newLine("", true); // true cause we need that " < " icon. User can type in these lines
 
         StartCoroutine(GoToEnd());
@@ -231,22 +344,24 @@ public class TerminalManager : MonoBehaviour
 
     }
 
-    public void Erzeugen()
+    public GameObject Erzeugen()
     {
         if (knoten == this.transform.parent.gameObject)
         {
             GameObject newTerminal = Instantiate(Resources.Load<GameObject>(string2), knoten.transform);
             this.transform.tag = "Untagged";
             newTerminal.tag = "Fokussed";
-            newTerminal.name =""+transform.parent.childCount;
+            newTerminal.name = "" + transform.parent.childCount;
+            return newTerminal;
         }
+        return null;
     }
 
     public void Delete()
     {
         if (transform.parent.childCount > 1)
         {
-            this.transform.parent.GetChild(this.transform.GetSiblingIndex() - 1).gameObject.tag = "Fokussed";
+            this.transform.parent.GetChild(this.transform.GetSiblingIndex() - (this.transform.GetSiblingIndex() == 0 ? 0 : 1)).gameObject.tag = "Fokussed";
         }
         Destroy(this.gameObject);
     }

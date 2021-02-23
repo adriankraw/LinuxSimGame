@@ -1,4 +1,7 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using System;
 
 [CreateAssetMenu(fileName = "Monster", menuName = "ScriptableObjects/CreateMonsterPreset")]
 public class Monster : ScriptableObject
@@ -33,10 +36,9 @@ public class Monster : ScriptableObject
             return hp;
         }
     }
-
     public int GetAnzahl()
     {
-        return (int)Random.Range(anzahl.x, anzahl.y + 1);
+        return (int)UnityEngine.Random.Range(anzahl.x, anzahl.y + 1);
     }
     public int Die()
     {

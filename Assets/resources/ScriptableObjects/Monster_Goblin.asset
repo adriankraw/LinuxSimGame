@@ -15,8 +15,8 @@ MonoBehaviour:
   MonsterName: Goblin
   lvl: 1
   exp: 10
-  anzahl: {x: 1, y: 2}
-  hp: 100
+  anzahl: {x: 1, y: 1}
+  hp: 85
   atk: 4
   dead: 0
   itemdrop: {fileID: 0}

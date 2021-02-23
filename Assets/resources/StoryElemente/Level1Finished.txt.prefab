@@ -1,0 +1,88 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &5899022427586507760
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5899022427586507761}
+  - component: {fileID: 3813620452880314953}
+  - component: {fileID: 5899022427586507766}
+  m_Layer: 0
+  m_Name: Item.txt
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5899022427586507761
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5899022427586507760}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 957.3559, y: 545.2608, z: -29.534422}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &3813620452880314953
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5899022427586507760}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cf0f63d036e15f24aa00706fb12adcec, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  permission: drwxr-xr-x
+  links: 1
+  owner: root
+  groupname: root
+  date: Dec 16
+  time: 16:15
+  fileType: 0
+--- !u!114 &5899022427586507766
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5899022427586507760}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 355aa0897a078514ea048e803496691a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  brief1: "Lieber u...-.-r \\n\r\n    Es ist nun schon eine Weile her, seitdem du
+    uns verlassen hast. Tro-z gro\xDFer M\xFChe haben wir es leider nicht geschaft
+    dich zu finden.\r\n    W\xE4hrend ich und dein Vater viel Zeit damit verbringen
+    deinen Geschwistern zu helfen, geht es in der Welt hei\xDF umher. Eine Krankheit
+    scheint die\r\n    Menschen zu befallen. Alchi hat sich vor 2 Wochen aufgebracht
+    ein Heilung zu finden, nur hat noch niemand von ihm Geh\xF6rt. W\xE4hrenddessen
+    bek\xE4mpfen sich \r\n    die Menschen im Dorf mitlerweile gegenseitig. Vorr\xE4te
+    werden aus den H\xE4nden der Kranken gerissen und an die Adligen verteilt. Aber
+    um uns musst du dir zum Gl\xFCck keine Sorgen machen.\r\n    Vater hat die diesj\xE4hrige
+    Ernte zum gro\xDFen Teil versteckt, sodass wir eine gute Weile damit auskommen.\\n\r\n   
+    Ich hoffe trotzdem, dass du bald wiederkommst.\\n\r\n    \\n\r\n    Liebe Gr\xFC\xDFe,\\n\r\n   
+    ---.--.-.-- (Unlesbar)"
+  brief2: "Lieber -se-.-r\\n\r\n    Es ist nun 5 Wochen her seitdem ich den ersten
+    Brief geschrieben habe. Ein paar Wanderer sind auf dem Weg zum Dorf an uns vorbeigekommen.
+    Wir fragten sie, ob es in anderen Teilen des\r\n    Landes besser sei. Die Wanderer
+    schauten sich nur gegenseitig an und sch\xFCttelten den Kopf. Mittlerweile haben
+    auch Vater Bedenken um uns. Aus Sorge, das unsere Vorr\xE4te nicht reichen\r\n   
+    essen Mama und Papa nicht einmal mehr t\xE4glich. 'Ihr seit wichtiger' bekommen
+    wir die ganze Zeit zu h\xF6ren 'Alles wird gut'.\\m\r\n    \\n\r\n    (Der rest
+    des Briefes scheint nichtwirklich lesbar zu sein. Neben ein paar vereinzelten
+    Buchstaben erkennst du nicht viel. Das einzige was du klar erkennen kannst ist
+    Dick geschriebenes 'USR' \r\n    und eine Baum \xE4nliche Struktur, welche jemand
+    auf den unteren Teil des Briefes gezeichnet hat)\r\n    "

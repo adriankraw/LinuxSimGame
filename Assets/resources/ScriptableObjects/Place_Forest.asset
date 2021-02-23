@@ -16,5 +16,6 @@ MonoBehaviour:
   wahrscheinlichkeit: 1
   Monsters:
   - {fileID: 11400000, guid: 6f34f452e36679346a677a35226eb36f, type: 2}
-  - {fileID: 11400000, guid: 2f89f994d3189a3409579d040f3a4ab5, type: 2}
-  Itemdrop: {fileID: 0}
+  - {fileID: 11400000, guid: 6f34f452e36679346a677a35226eb36f, type: 2}
+  Itemdrop: {fileID: 8273588905972973116, guid: 1edf3f4e6832903409e6a8a2bb93368b,
+    type: 3}
