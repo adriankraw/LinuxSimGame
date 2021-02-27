@@ -7,20 +7,22 @@ public enum FileType{
     directry
 }
 
+public enum GamePlayObject{
+    monster,
+    Dungeon,
+    item,
+    etc
+}
 public class File_Obj: MonoBehaviour
 {
     [SerializeField] public string permission;
     [SerializeField] public int links;
     [SerializeField] public string owner;
     [SerializeField] public string groupname;
-    [SerializeField] public int size;
+    [SerializeField] public int size => this.transform.childCount;
     [SerializeField] public string date;
     [SerializeField] public string time;
-    [SerializeField] public string filename;
+    [SerializeField] public string filename => this.name;
     [SerializeField] public FileType fileType;
-
-    void Awake()
-    {
-        filename = this.name;
-    }
+    [SerializeField] public GamePlayObject gameType = GamePlayObject.etc;
 }

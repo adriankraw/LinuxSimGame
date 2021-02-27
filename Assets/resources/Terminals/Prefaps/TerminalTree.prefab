@@ -12,7 +12,8 @@ GameObject:
   - component: {fileID: 5533066663001392578}
   - component: {fileID: 5533066663001392588}
   - component: {fileID: 843038266158869136}
-  m_Layer: 5
+  - component: {fileID: 2768771225552548162}
+  m_Layer: 8
   m_Name: TerminalTree
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -89,13 +90,26 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Padding:
-    m_Left: 10
-    m_Right: 10
-    m_Top: 10
-    m_Bottom: 10
+    m_Left: 0
+    m_Right: 0
+    m_Top: 0
+    m_Bottom: 0
   m_ChildAlignment: 0
   rows: 0
   columns: 1
-  cellSize: {x: 1900, y: NaN}
+  cellSize: {x: 1919, y: NaN}
   spacing: {x: 0, y: 0}
-  fitType: 1
+--- !u!114 &2768771225552548162
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5533066663001392589}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2952358a2a1a2f649bdbcb1698fb48c0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  string2: Terminals/Prefaps/TerminalEmpty_Prefap
+  stringKnoten: Terminals/Prefaps/TerminalTree

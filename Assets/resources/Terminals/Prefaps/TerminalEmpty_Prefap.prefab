@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 5271637921269668381}
   - component: {fileID: 7884036875693250553}
   - component: {fileID: 4363486031643085741}
-  m_Layer: 5
+  m_Layer: 8
   m_Name: Content
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -73,7 +73,7 @@ MonoBehaviour:
   m_ChildForceExpandWidth: 0
   m_ChildForceExpandHeight: 0
   m_ChildControlWidth: 1
-  m_ChildControlHeight: 0
+  m_ChildControlHeight: 1
   m_ChildScaleWidth: 1
   m_ChildScaleHeight: 1
   m_ReverseArrangement: 0
@@ -89,7 +89,7 @@ GameObject:
   - component: {fileID: 4858410612509935398}
   - component: {fileID: 7228082192756882130}
   - component: {fileID: 7228082192756882131}
-  m_Layer: 5
+  m_Layer: 8
   m_Name: Body_Panel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -150,7 +150,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.16936633, g: 0.20090704, b: 0.20754719, a: 1}
+  m_Color: {r: 0.16936633, g: 0.20090704, b: 0.20754719, a: 0.9607843}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -177,9 +177,10 @@ GameObject:
   m_Component:
   - component: {fileID: 7228082193228264721}
   - component: {fileID: 7042093390615291902}
+  - component: {fileID: 7279198443132739185}
   - component: {fileID: 8389371002843876234}
   - component: {fileID: 8970270144826202127}
-  m_Layer: 5
+  m_Layer: 8
   m_Name: TerminalEmpty_Prefap
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -224,6 +225,19 @@ MonoBehaviour:
   zeile: {fileID: 3168222720145343446, guid: 385f9885176ce944f9db2784bb900dfe, type: 3}
   string2: Terminals/Prefaps/TerminalEmpty_Prefap
   SuperKey: 308
+--- !u!114 &7279198443132739185
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7228082193228264722}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: af14fb2c689d4084e9d1685065b3274d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  content: {fileID: 5271637921269668381}
 --- !u!114 &8389371002843876234
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -243,7 +257,7 @@ MonoBehaviour:
   m_Elasticity: 0.1
   m_Inertia: 1
   m_DecelerationRate: 0.135
-  m_ScrollSensitivity: 1
+  m_ScrollSensitivity: 48
   m_Viewport: {fileID: 7228082192756882156}
   m_HorizontalScrollbar: {fileID: 0}
   m_VerticalScrollbar: {fileID: 0}
@@ -253,19 +267,7 @@ MonoBehaviour:
   m_VerticalScrollbarSpacing: 0
   m_OnValueChanged:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 8970270144826202127}
-        m_TargetAssemblyTypeName: ScrollToBottom, Assembly-CSharp
-        m_MethodName: scrollToEnd
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!114 &8970270144826202127
 MonoBehaviour:
   m_ObjectHideFlags: 0
