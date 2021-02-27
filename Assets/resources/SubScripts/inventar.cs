@@ -6,9 +6,11 @@ using System;
 public class inventar : MonoBehaviour
 {
     public List<GameObject> items;
+    private int itemanzahl;
     private void Start()
     {
         inventarEvents.onInventarUpdate += UpdateList;
+        itemanzahl = items.Count;
     }
     private void FixedUpdate() {
         UpdateList();
@@ -19,7 +21,12 @@ public class inventar : MonoBehaviour
         for(int i = 0;i<this.transform.childCount;i++)
         {
             items.Add(this.transform.GetChild(i).gameObject);
+            if((i+1)<this.transform.childCount && this.transform.GetChild(i).name == this.transform.GetChild(i+1).name)
+            {
+                this.transform.GetChild(i).name = this.transform.GetChild(i).name+i;
+            }
         }
+
     }
 
     public string[] GetItemNames()

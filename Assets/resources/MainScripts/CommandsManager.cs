@@ -104,14 +104,23 @@ public class CommandsManager
                 }
                 if (file_Obj.gameType == GamePlayObject.Dungeon)
                 {
-                    _eingabe = BefehleErkennen("cd", new string[] { _file.name });
-                    foreach (Transform game in _file)
+                    if (PlayerChar._lvl > 1)
                     {
-                        if (game.name == "enemy" && game.gameObject.activeSelf)
-                        {
-                            _eingabe[0] += "\nDu scheinst " + game?.GetComponent<PlaceFile>().GetPlace() + "x Monster beschworen zu haben.";
-                            PlayerChar._moveable = false;
-                        }
+                        _eingabe = BefehleErkennen("cd", new string[] { _file.name });
+                        _file.GetComponent<Dungeon>().ausführen();
+                        PlayerChar._moveable = false;
+                        // foreach (Transform game in _file)
+                        // {
+                        //     if (game.name == "enemy" && game.gameObject.activeSelf)
+                        //     {
+                        //         _eingabe[0] += "\nDu scheinst Monster beschworen zu haben.";
+                        //         PlayerChar._moveable = false;
+                        //     }
+                        // }
+                    }
+                    else
+                    {
+                        _eingabe[0] = "Dir fehlen die Berechtigungen für diese Aktion. Es kann sein, dass du ein höheres Level bnötigst";
                     }
                 }
                 else
@@ -199,18 +208,24 @@ public class CommandsManager
                             _eingabe[0] = _file.GetComponent<inventar>().Use(_option[1]);
                             break;
                         case "addItem":
-                            if(_currentDirectory.GetComponent<inventar>())
+                            if (_currentDirectory.GetComponent<inventar>())
                             {
                                 _eingabe[0] = _file.GetComponent<inventar>().Use(_option[1]);
                             }
-                            else{
-                                try{
-                                _file.transform.SetParent(PlayerChar.inventar.transform);
-                                }catch{
+                            else
+                            {
+                                try
+                                {
+                                    _file.transform.SetParent(PlayerChar.inventar.transform);
+                                    _eingabe[0] = "Das item " + _file.GetComponent<Potion>().GetPotionType() + " wurde deinem Inventar hinzugefügt";
+                                    _file.name = _file.GetComponent<Potion>().GetPotionType()+"_Potion";
+                                }
+                                catch
+                                {
                                     _eingabe[0] = "Du scheinst noch kein inventar zu besitzen";
                                 }
                             }
-                                break;
+                            break;
                         case "--remove":
                             _eingabe[0] = "Das darfst du leider nicht.";
                             break;

@@ -85,7 +85,9 @@ public class TerminalManager : MonoBehaviour
                     try
                     {
                         if (_rawEingabenHistory.Count == 0) return;
-                        terminalBody.transform.GetChild(terminalBody.transform.childCount - 1).GetComponentInChildren<InputField>().text = _rawEingabenHistory.Peek();
+                        InputField input = terminalBody.transform.GetChild(terminalBody.transform.childCount - 1).GetComponentInChildren<InputField>();
+                        input.text = _rawEingabenHistory.Peek();
+                        input.MoveTextEnd(false);
                         _tmphistory.Push(_rawEingabenHistory.Pop());
                     }
                     catch (Exception e)
@@ -98,7 +100,9 @@ public class TerminalManager : MonoBehaviour
                     try
                     {
                         if (_tmphistory.Count == 0) return;
-                        terminalBody.transform.GetChild(terminalBody.transform.childCount - 1).GetComponentInChildren<InputField>().text = _tmphistory.Peek();
+                        InputField input = terminalBody.transform.GetChild(terminalBody.transform.childCount - 1).GetComponentInChildren<InputField>();
+                        input.text = _tmphistory.Peek();
+                        input.MoveTextEnd(false);
                         _rawEingabenHistory.Push(_tmphistory.Pop());
                     }
                     catch (Exception e)

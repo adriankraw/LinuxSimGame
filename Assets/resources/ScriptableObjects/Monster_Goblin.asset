@@ -16,7 +16,7 @@ MonoBehaviour:
   lvl: 1
   exp: 10
   anzahl: {x: 1, y: 1}
-  hp: 85
-  atk: 4
+  hp: 80
+  atk: 9
   dead: 0
   itemdrop: {fileID: 0}

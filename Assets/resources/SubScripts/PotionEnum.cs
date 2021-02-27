@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-enum PotionType{
+public enum PotionType{
     SmallHeal,
     Heal,
     BigHeal

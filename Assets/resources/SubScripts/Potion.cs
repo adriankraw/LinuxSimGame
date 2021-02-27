@@ -20,4 +20,9 @@ public class Potion : MonoBehaviour
                 break;
         }
     }
+
+    public PotionType GetPotionType()
+    {
+        return _mytype;
+    }
 }
