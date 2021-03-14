@@ -32,7 +32,7 @@ public class CommandsManager
             case "cd":
                 if (!PlayerChar._moveable)
                 {
-                    _eingabe[0] = "Du kannst scheinst an diesen Ort gebunden zu sein";
+                    _eingabe[0] = "Du scheinst an diesen Ort gebunden zu sein";
                     return _eingabe;
                 }
                 cdMethode(_option[0]);
@@ -314,7 +314,7 @@ public class CommandsManager
             case "game":
                 _eingabe[0] = "Hast du schon verstanden wie der 'man'-Befehl funktioniert?\n";
                 _eingabe[0] += "\nTipps:\n";
-                _eingabe[0] += "'man player' zeigt dir alle Funktionalitätten des 'player'-Befehles\n";
+                _eingabe[0] += "'man player' zeigt dir alle Funktionalitäten des 'player'-Befehles\n";
                 _eingabe[0] += "'man cd' und 'man ls' könnten ebenfalls interessant für dich sein\n";
                 _eingabe[0] += "\nNun, ich will dich nicht länger aufhalten. Geh erst einmal nach Hause und ruhe dich aus.\n";
                 _eingabe[0] += "\n";
@@ -343,7 +343,7 @@ public class CommandsManager
                 _eingabe[0] += "Dies kannst du so lange tun, bis es keine genauere Darstellung mehr gibt.";
                 _eingabe[0] += "'cd Name_des_Ordners'      bewegt dich in einen Ordner hinein.";
                 _eingabe[0] += "\n\n";
-                _eingabe[0] += "'cd ..'                    bewegt dich wieder aus einen Ornder hinaus";
+                _eingabe[0] += "'cd ..'                    bewegt dich wieder aus einen Ordner hinaus";
                 _eingabe[0] += "\n";
                 _eingabe[0] += "Weitere Möglichkeiten sind:\n";
                 _eingabe[0] += "'cd ../Name_eines_Ordners' bewegt dich erst raus und dann in einen Ordner wieder hinein\n";
@@ -357,21 +357,7 @@ public class CommandsManager
                 _eingabe[0] += "'ls -la' gibt eine Liste aller Unterordner aus, zusammen mit Informationen wie: Deine Rechte, Der Besitzer, Anzahl an Unterordner in jenem Ordner, ...\n";
                 break;
             default:
-                _eingabe[0] = @" _      _                   _____ _           " + @"\n" +
-                                @"| |    (_)                 / ____(_)          " + @"\n" +
-                                @"| |     _ _ __  _   ___  _| (___  _ _ __ ___  " + @"\n" +
-                                @"| |    | | '_ \| | | \ \/ /\___ \| | '_ ` _ \ " + @"\n" +
-                                @"| |____| | | | | |_| |>  < ____) | | | | | | |" + @"\n" +
-                                @"|______|_|_| |_|\__,_/_/\_\_____/|_|_| |_| |_|" + @"\n";
-                _eingabe[0] += @"\n";
-                _eingabe[0] += "In diesem Spiel nutzt du verschiedene Befehle um dich in einem virtuellen Raum zu bewegen. Dabei steht jeder Befehl für eine ganz bestimmte Funktion! So funktioniert der 'man'-Befehl wie eine Bedienungsanleitung mit unglaublich vielen Kapiteln.";
-                _eingabe[0] += @"\n";
-                _eingabe[0] += @"\n";
-                _eingabe[0] += "Weitere Möglichkeiten des 'man'-Befehles sind 'man cd' oder 'man ls' wo du mehr zur Funktionweise von 'cd' oder 'ls' erfahren kannst.";
-                _eingabe[0] += @"\n";
-                _eingabe[0] += "Falls du noch mehr Informationen zum Spiel erhalten möchtest so nutze den Befehl 'man game'.";
-                _eingabe[0] += @"\n";
-                _eingabe[0] += "Ansonsten wünsche ich dir !!!!viel Spaß!!!!";
+                _eingabe[0] = "Diese Anleitung kann ich dir leider nicht zeigen. Versuch nach etwas anderem zu schauen.";
                 break;
         }
 
