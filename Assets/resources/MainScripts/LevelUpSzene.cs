@@ -16,7 +16,7 @@ public class LevelUpSzene : MonoBehaviour
             case 2:
                 returnString = "Bei eines LevelUp/SystemUpdate passieren manchmal viele Dinge. Es lohnt sich verschiedene Orte im Auge zu behalten.\n\n";
                 returnString += "Hier ein kleines Rätsel, welches dir den nächsten Ordner/Ort nennt:\n";
-                returnString += "Ich bin ein englischer Nutzer, welchem ein Buchstabe gestohlen worden ist. wer BIN ich ?";
+                returnString += "Ich bin ein englischer Nutzer, welchem ein Buchstabe gestohlen worden ist. Wer BIN ich?";
                 break;
             case 3:
                 returnString = "jawohl ich bin jetzt level 3";
