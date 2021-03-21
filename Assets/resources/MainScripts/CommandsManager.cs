@@ -311,6 +311,23 @@ public class CommandsManager
     {
         switch (_option)
         {
+            case "":
+                _eingabe[0] = @" _      _                   _____ _           " + @"\n" +
+                              @"| |    (_)                 / ____(_)          " + @"\n" +
+                              @"| |     _ _ __  _   ___  _| (___  _ _ __ ___  " + @"\n" +
+                              @"| |    | | '_ \| | | \ \/ /\___ \| | '_ ` _ \ " + @"\n" +
+                              @"| |____| | | | | |_| |>  < ____) | | | | | | |" + @"\n" +
+                              @"|______|_|_| |_|\__,_/_/\_\_____/|_|_| |_| |_|" + @"\n";
+                _eingabe[0] += @"\n";
+                _eingabe[0] += "In diesem Spiel nutzt du verschiedene Befehle um dich in einem virtuellen Raum zu bewegen. Dabei steht jeder Befehl für eine ganz bestimmte Funktion! So funktioniert der 'man'-Befehl wie eine Bedienungsanleitung mit unglaublich vielen Kapiteln.";
+                _eingabe[0] += @"\n";
+                _eingabe[0] += @"\n";
+                _eingabe[0] += "Weitere Möglichkeiten des 'man'-Befehles sind 'man cd' oder 'man ls' wo du mehr zur Funktionweise von 'cd' oder 'ls' erfahren kannst.";
+                _eingabe[0] += @"\n";
+                _eingabe[0] += "Falls du noch mehr Informationen zum Spiel erhalten möchtest so nutze den Befehl 'man game'.";
+                _eingabe[0] += @"\n";
+                _eingabe[0] += "Ansonsten wünsche ich dir !!!!viel Spaß!!!!";
+            break;
             case "game":
                 _eingabe[0] = "Hast du schon verstanden wie der 'man'-Befehl funktioniert?\n";
                 _eingabe[0] += "\nTipps:\n";
