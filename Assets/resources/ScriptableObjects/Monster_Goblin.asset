@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MonsterName: Goblin
   lvl: 1
-  exp: 10
+  exp: -20
   anzahl: {x: 1, y: 1}
   hp: 80
   atk: 9

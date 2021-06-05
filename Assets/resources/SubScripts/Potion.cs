@@ -10,13 +10,13 @@ public class Potion : MonoBehaviour
         switch (_mytype)
         {
             case PotionType.SmallHeal:
-                PlayerChar.Heal(15);
+                PlayerChar.instance.Heal(15);
                 break;
             case PotionType.Heal:
-                PlayerChar.Heal(25);
+                PlayerChar.instance.Heal(25);
                 break;
             case PotionType.BigHeal:
-                PlayerChar.Heal(50);
+                PlayerChar.instance.Heal(50);
                 break;
         }
     }

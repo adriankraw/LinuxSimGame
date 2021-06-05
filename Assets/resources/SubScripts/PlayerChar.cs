@@ -2,18 +2,30 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public static class PlayerChar
+public class PlayerChar: MonoBehaviour
 {
-    public static string _name { get; set; }
-    public static int _hp { get; set; }
-    public static int _maxhp { get; set; }
-    public static int _atk { get; set; }
-    public static int _exp { get; set; }
-    public static int _lvl { get; set; }
-    public static int _lvlPoints { get; set; }
-    public static bool _moveable { get; set; }
-    public static GameObject inventar { get; set; }
-    public static void Verteidigen(int schaden)
+    public static PlayerChar instance;
+    public string _name { get; set; }
+    public int _hp { get; set; }
+    public int _maxhp { get; set; }
+    public int _atk { get; set; }
+    public int _exp { get; set; }
+    public int _lvl { get; set; }
+    public int _lvlPoints { get; set; }
+    public bool _moveable { get; set; }
+    public GameObject inventar { get; set; }
+
+    private void Awake() {
+        if(instance == null)
+        {
+            instance = this;
+        }else{
+            Destroy(this);
+        }
+        _moveable = true;
+    }
+
+    public void Verteidigen(int schaden)
     {
         if (_hp - schaden <= 0)
         {
@@ -24,11 +36,11 @@ public static class PlayerChar
             _hp -= schaden;
         }
     }
-    public static int Angreifen()
+    public int Angreifen()
     {
         return _atk;
     }
-    public static string LevelUp()
+    public string LevelUp()
     {
         if (_exp == 100)
         {
@@ -46,7 +58,7 @@ public static class PlayerChar
             return "Du scheinst noch nicht bereit zu sein.";
         }
     }
-    public static int Heal(int a)
+    public int Heal(int a)
     {
         if(_hp + a > _maxhp) _hp = _maxhp;
         return (_hp += a);

@@ -30,11 +30,6 @@ public class CommandsManager
                 _eingabe[0] += "So viele Fehler hast du bislang gemacht: " + Points.mistakesMade;
                 break;
             case "cd":
-                if (!PlayerChar._moveable)
-                {
-                    _eingabe[0] = "Du scheinst an diesen Ort gebunden zu sein";
-                    return _eingabe;
-                }
                 cdMethode(_option[0]);
                 _eingabe[1] = StoryCommander.StoryTelling(_currentDirectory.name);
                 break;
@@ -52,7 +47,7 @@ public class CommandsManager
                 _eingabe = playerMethode(_option, _eingabe);
                 break;
             case "whoami":
-                _eingabe[0] = "student: " + PlayerChar._name;
+                _eingabe[0] = "student: " + PlayerChar.instance._name;
                 break;
             case "shutdown":
                 if (_option[0] == "")
@@ -100,21 +95,21 @@ public class CommandsManager
                 if (file_Obj.gameType == GamePlayObject.monster)
                 {
                     _eingabe[0] = "Du scheinst " + _placefile?.GetPlace() + "x Monster beschworen zu haben.";
-                    PlayerChar._moveable = false;
+                    PlayerChar.instance._moveable = false;
                 }
                 if (file_Obj.gameType == GamePlayObject.Dungeon)
                 {
-                    if (PlayerChar._lvl > 1)
+                    if (PlayerChar.instance._lvl > 1)
                     {
                         _eingabe = BefehleErkennen("cd", new string[] { _file.name });
                         _file.GetComponent<Dungeon>().ausführen();
-                        PlayerChar._moveable = false;
+                        PlayerChar.instance._moveable = false;
                         // foreach (Transform game in _file)
                         // {
                         //     if (game.name == "enemy" && game.gameObject.activeSelf)
                         //     {
                         //         _eingabe[0] += "\nDu scheinst Monster beschworen zu haben.";
-                        //         PlayerChar._moveable = false;
+                        //         PlayerChar.instance._moveable = false;
                         //     }
                         // }
                     }
@@ -138,11 +133,11 @@ public class CommandsManager
                             try
                             {
                                 GetMonster monster = _file?.GetComponent<GetMonster>();
-                                monster.Verteidigen(PlayerChar.Angreifen());
+                                monster.Verteidigen(PlayerChar.instance.Angreifen());
                                 if (monster.dead)
                                 {
                                     Points.monstersKilled++;
-                                    if (PlayerChar._lvl == 1 && Points.monstersKilled == 1)
+                                    if (PlayerChar.instance._lvl == 1 && Points.monstersKilled == 1)
                                     {
                                         _eingabe[0] = "Glückwunsch DAS war dein erster Gegner!\n";
                                         _eingabe[0] += "Du hast für deinen ersten Kampf direkt 100Exp bekommen, weswegen du direkt ein Update/LevelUp machen kannst.\n";
@@ -153,22 +148,22 @@ public class CommandsManager
                                     {
                                         _eingabe[0] = "Gegner wurde besiegt! Glückwunsch";
                                     }
-                                    PlayerChar._exp += monster.Die();
+                                    PlayerChar.instance._exp += monster.Die();
                                     monster.Drop(_currentDirectory.transform);
                                     _file = _file.parent;
                                     monster.DeleteMonster();
-                                    PlayerChar._moveable = true;
+                                    PlayerChar.instance._moveable = true;
                                     for (int j = 0; j < _file.childCount; j++)
                                     {
                                         if (_file.GetChild(j).GetComponent<GetMonster>())
                                         {
-                                            PlayerChar._moveable = false;
+                                            PlayerChar.instance._moveable = false;
                                         }
                                     }
                                 }
                                 else
                                 {
-                                    //PlayerChar.Verteidigen(monster.Angriff());
+                                    //PlayerChar.instance.Verteidigen(monster.Angriff());
                                     _eingabe[0] = _file.name + " HP: " + _file?.GetComponent<GetMonster>().hp + " ";
                                 }
                             }
@@ -186,7 +181,7 @@ public class CommandsManager
                                 try
                                 {
                                     string[][] asd1 = _file.GetComponent<Briefe>().GetBrief1();
-                                    foreach (string text in asd1[PlayerChar._lvl - 1])
+                                    foreach (string text in asd1[PlayerChar.instance._lvl - 1])
                                     {
                                         _eingabe[0] += text + @"\n";
                                     }
@@ -216,7 +211,7 @@ public class CommandsManager
                             {
                                 try
                                 {
-                                    _file.transform.SetParent(PlayerChar.inventar.transform);
+                                    _file.transform.SetParent(PlayerChar.instance.inventar.transform);
                                     _eingabe[0] = "Das item " + _file.GetComponent<Potion>().GetPotionType() + " wurde deinem Inventar hinzugefügt";
                                     _file.name = _file.GetComponent<Potion>().GetPotionType()+"_Potion";
                                 }
@@ -252,34 +247,34 @@ public class CommandsManager
             case "-n":
                 if (_option.Length == 2 && _option[1] != "")
                 {
-                    PlayerChar._name = _option[1];
+                    PlayerManager.instance.PlayerNameChanged("",_option[1]);
                 }
-                _eingabe[0] = "Player name: " + PlayerChar._name;
+                _eingabe[0] = "Player name: " + _option[1];
                 break;
             case "--hp":
-                _eingabe[0] = "Player hp: " + PlayerChar._hp;
+                _eingabe[0] = "Player hp: " + PlayerChar.instance._hp;
                 break;
             case "--atk":
-                _eingabe[0] = "Player Atk: " + PlayerChar._atk;
+                _eingabe[0] = "Player Atk: " + PlayerChar.instance._atk;
                 break;
             case "--lvl":
-                _eingabe[0] = "Player Lvl: " + PlayerChar._lvl;
+                _eingabe[0] = "Player Lvl: " + PlayerChar.instance._lvl;
                 break;
             case "--exp":
-                _eingabe[0] = "Player Exp: " + PlayerChar._exp + "/100";
+                _eingabe[0] = "Player Exp: " + PlayerChar.instance._exp + "/100";
                 break;
             case "":
             case "--stats":
                 _eingabe[0] = "Your stats are: " + @"\n" + @"\n" +
-                              "Name: " + PlayerChar._name + @"\n" +
-                              "Hp: " + PlayerChar._hp + "/" + PlayerChar._maxhp + @"\n" +
-                              "Atk: " + PlayerChar._atk + @"\n" +
-                              "Lvl: " + PlayerChar._lvl + @"\n" +
-                              "SkillPoints: " + PlayerChar._lvlPoints + @"\n" +
-                              "Exp: " + PlayerChar._exp + "/100";
+                              "Name: " + PlayerChar.instance._name + @"\n" +
+                              "Hp: " + PlayerChar.instance._hp + "/" + PlayerChar.instance._maxhp + @"\n" +
+                              "Atk: " + PlayerChar.instance._atk + @"\n" +
+                              "Lvl: " + PlayerChar.instance._lvl + @"\n" +
+                              "SkillPoints: " + PlayerChar.instance._lvlPoints + @"\n" +
+                              "Exp: " + PlayerChar.instance._exp + "/100";
                 break;
             case "--inventar":
-                _eingabe[0] = "Du kannst dein Inventar hier finden: '/home/" + PlayerChar._name + "'";
+                _eingabe[0] = "Du kannst dein Inventar hier finden: '/home/" + PlayerChar.instance._name + "'";
                 break;
             default:
                 _eingabe[0] = "player doesn't support " + _option[0] + " in this way. Consider checking the manuel for more information.";
@@ -311,6 +306,23 @@ public class CommandsManager
     {
         switch (_option)
         {
+            case "":
+                _eingabe[0] = @" _      _                   _____ _           " + @"\n" +
+                              @"| |    (_)                 / ____(_)          " + @"\n" +
+                              @"| |     _ _ __  _   ___  _| (___  _ _ __ ___  " + @"\n" +
+                              @"| |    | | '_ \| | | \ \/ /\___ \| | '_ ` _ \ " + @"\n" +
+                              @"| |____| | | | | |_| |>  < ____) | | | | | | |" + @"\n" +
+                              @"|______|_|_| |_|\__,_/_/\_\_____/|_|_| |_| |_|" + @"\n";
+                _eingabe[0] += @"\n";
+                _eingabe[0] += "In diesem Spiel nutzt du verschiedene Befehle um dich in einem virtuellen Raum zu bewegen. Dabei steht jeder Befehl für eine ganz bestimmte Funktion! So funktioniert der 'man'-Befehl wie eine Bedienungsanleitung mit unglaublich vielen Kapiteln.";
+                _eingabe[0] += @"\n";
+                _eingabe[0] += @"\n";
+                _eingabe[0] += "Weitere Möglichkeiten des 'man'-Befehles sind 'man cd' oder 'man ls' wo du mehr zur Funktionweise von 'cd' oder 'ls' erfahren kannst.";
+                _eingabe[0] += @"\n";
+                _eingabe[0] += "Falls du noch mehr Informationen zum Spiel erhalten möchtest so nutze den Befehl 'man game'.";
+                _eingabe[0] += @"\n";
+                _eingabe[0] += "Ansonsten wünsche ich dir !!!!viel Spaß!!!!";
+            break;
             case "game":
                 _eingabe[0] = "Hast du schon verstanden wie der 'man'-Befehl funktioniert?\n";
                 _eingabe[0] += "\nTipps:\n";
@@ -371,7 +383,7 @@ public class CommandsManager
             case "update":
                 BefehleErkennen("cd", new string[] { ".." });
                 BefehleErkennen("cd", new string[] { ".." });
-                _eingabe[0] = PlayerChar.LevelUp() + "\n";
+                _eingabe[0] = PlayerChar.instance.LevelUp() + "\n";
                 _eingabe[0] += _currentDirectory.GetComponent<LevelUpSzene>().LevelUp();
                 break;
             default:
@@ -384,6 +396,36 @@ public class CommandsManager
 
     private void cdMethode(string _option)
     {
+        if(_option == "/")
+        {
+            GameObject game = _currentDirectory;
+            while( game.tag != "RootDictory" )
+            {
+                game = game.transform.parent.gameObject;
+            }
+            _currentDirectory = game;
+            ReadFileSystem(_currentDirectory);
+            return;
+        }
+        if(_option == "~")
+        {
+            GameObject game = _currentDirectory;
+            while( game.tag != "RootDictory" )
+            {
+                game = game.transform.parent.gameObject;
+            }
+            foreach(Transform _trans in game.transform.GetComponentsInChildren<Transform>())
+            {
+                if(_trans.gameObject.name == PlayerChar.instance._name)
+                {
+                    game = _trans.gameObject;
+                    break;
+                }
+            }
+            _currentDirectory = game;
+            ReadFileSystem(_currentDirectory);
+            return;
+        }
         string[] split = _option.Split('/');
         foreach (string _split in split)
         {
@@ -460,7 +502,7 @@ public class CommandsManager
 
     public string GetDirectoryPath()
     {
-        string path = "~";
+        string path = "Path: ";
         Stack<string> stack = new Stack<string>();
         stack.Push(_currentDirectory.name);
         GameObject tmp_currentDirectory = _currentDirectory;

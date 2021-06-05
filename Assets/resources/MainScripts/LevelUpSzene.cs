@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class LevelUpSzene : MonoBehaviour
 {
-    int level => PlayerChar._lvl;
+    int level => PlayerChar.instance._lvl;
     private string returnString;
     [Header("level 1")]
     [SerializeField] GameObject Dungeon;

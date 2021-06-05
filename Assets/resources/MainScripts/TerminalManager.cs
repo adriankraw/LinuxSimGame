@@ -54,9 +54,9 @@ public class TerminalManager : MonoBehaviour
     private void MonsterAttacks(int obj)
     {
         if (this.tag != "Fokussed") return;
-        PlayerChar.Verteidigen(obj);
+        PlayerChar.instance.Verteidigen(obj);
         newLine("Enemy is attacking", false);
-        newLine(PlayerChar._name + "'s HP: " + PlayerChar._hp + "/" + PlayerChar._maxhp, false);
+        newLine(PlayerChar.instance._name + "'s HP: " + PlayerChar.instance._hp + "/" + PlayerChar.instance._maxhp, false);
         newLine("", true); // true cause we need that " < " icon. User can type in these lines
         StartCoroutine(GoToEnd());
     }

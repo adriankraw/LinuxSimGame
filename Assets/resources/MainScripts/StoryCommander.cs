@@ -29,7 +29,7 @@ public static class StoryCommander
     public static string StoryTelling(string keywords)
     {
         string _eingabe = "";
-        string a = PlayerChar._name;
+        string a = PlayerChar.instance._name;
         if (keywords == a && storyDictionary["user1"] == false)
         {
             _eingabe = "Lass uns mal darüber reden, wie du Dateien oder Applicationen ausführen kannst:\n";
@@ -42,7 +42,7 @@ public static class StoryCommander
         else
         if (keywords == "home" && storyDictionary["home"] == false)
         {
-            _eingabe = "Wilkommen in dei.... jagut nicht ganz deinem Zuhause. Dies ist der Ordner indem alle Häuser zufinden sind. \n";
+            _eingabe = "Willkommen in dei.... jagut nicht ganz deinem Zuhause. Dies ist der Ordner indem alle Häuser zufinden sind. \n";
             _eingabe += "Von hier aus kannst du den Ordner eines Nutzers betreten, sofern du die Rechte dafür hast.\n";
             storyDictionary["home"] = true;
         }
@@ -56,7 +56,7 @@ public static class StoryCommander
         else
         if (keywords == "guest" && storyDictionary["guest"] == false)
         {
-            _eingabe = "Hierbei handelt es sich ein Gäste-Account. Da du aber als "+PlayerChar._name+" angemeldet bist. Betrifft dich dieser Ordner nicht.";
+            _eingabe = "Hierbei handelt es sich ein Gäste-Account. Da du aber als "+PlayerChar.instance._name+" angemeldet bist. Betrifft dich dieser Ordner nicht.";
             _eingabe += @"\n";
             storyDictionary["guest"] = true;
         }
